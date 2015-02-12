@@ -1,41 +1,35 @@
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/my_database');
-var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
-var SALT_WORK_FACTOR = 10;
-// var ObjectId = Schema.ObjectId;
+var User = require('./user-model');
 
-var UserSchema = new Schema({
-  username: { type: String, required: true, index: { unique: true}}
-  password: { type: String, required: true}
-});
+var connStr = 'mongodb://localhost:27017/calorieTracker';
+mongoose.connect(connStr, function(err) {
+  if (err) throw err;
+  console.log('Successfully connected to MongoDB');
+})
 
-UserSchema.pre('save', function(next) {
-  var user = this;
-  // only hash the password if has been modified or is new
-  if (!user.isModified('password')) return next();
+// create a new user
+var testUser = new User({
+  username: 'jmar777',
+  password: 'Password123'
+})
 
-  //generate a salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-    if (err) return next(err);
+// save user to database
+testUser.save(function(err) {
+  if (err) throw err;
 
-    //hash the password along with our new salt
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      if (err) return next(err);
+  //fetch user and test password verification
+  User.findOne({ username: 'jmar777'}, function(err, user) {
+    if (err) throw err;
 
-      //override the cleartext password with the hashed one
-      user.password = hash;
-      next();
+    // test a matching password
+    user.comparePassword('Password123', function(err, isMatch) {
+      if (err) throw err;
+      console.log('Password123:', isMatch);
     });
+
+    user.comparePassword('123Password', function(err, isMatch) {
+      if (err) throw err;
+      console.log('123Password:', isMatch);
+    })
   });
 });
-
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-}
-
-
-module.exports = mongoose.model('User', UserSchema);
