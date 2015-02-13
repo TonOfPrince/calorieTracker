@@ -1,11 +1,29 @@
 var mongoose = require('mongoose');
 var User = require('./user-model');
+var express = require("express");
+var app = express();
+
+//port
+var port = 3000;
+
+//ip
+var ip = "127.0.0.1";
+
+app.use(express.static(__dirname));
 
 var connStr = 'mongodb://localhost:27017/calorieTracker';
 mongoose.connect(connStr, function(err) {
   if (err) throw err;
   console.log('Successfully connected to MongoDB');
-})
+});
+
+//log where we are listening
+console.log("Listening on http://" + ip + ":" + port);
+
+app.listen(port, ip);
+
+
+
 
 // create a new user
 // var testUser = new User({
