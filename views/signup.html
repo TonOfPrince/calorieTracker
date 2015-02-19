@@ -1,4 +1,4 @@
-<form class="center" ng-submit="createUser(id, pass, confPass, expectedCalories)">
+<form class="center" ng-submit="createUser(id, pass, confPass, expectedCalories, userExists)">
   <label>User ID:</label><br>
   <input type="text" placeholder="User ID" ng-model="id"> <br><br>
   <label>Password:</label><br>
@@ -7,9 +7,9 @@
   <input type="password" placeholder="Confirm Password" ng-model="confPass"> <br><br>
   <label>Expected Number of Daily Calories:</label><br>
   <input type="number" placeholder="ex. 2000" ng-model="expectedCalories"> <br><br>
-  <div class="error" ng-show="incorrectPass">
-    <span >Incorrect password, {{flash}}!</span>
+  <div class="error" ng-show="userExists">
+    <span >User already exists!</span>
   </div>
-  <br ng-show="incorrectPass"><br ng-show="incorrectPass">
+  <br ng-show="userExists">
   <input type="submit">
 </form>

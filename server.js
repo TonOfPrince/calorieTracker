@@ -31,8 +31,6 @@ app.post('/saveEntry', function (req, res) {
   req.on('end', function() {
     data = JSON.parse(data);
     console.log(data);
-    // data['objectId'] = objectId++;
-    // messages.push(data);
     res.end(JSON.stringify({results: messages}));
   });
 });
@@ -48,34 +46,25 @@ app.post('/createUser', function (req, res) {
     data = JSON.parse(data);
     console.log(data['id']);
     console.log(data);
-    var newUser = new User({
-      username: data['id'],
-      password: data['password'],
-      calories: data['calories']
-    });
-
-    newUser.save(function(err) {
+    User.findOne({ username: data['id']}, function(err, user) {
       if (err) throw err;
-
-      //fetch user and test password verification
-      // User.findOne({ username: data['id']}, function(err, user) {
-      //   if (err) throw err;
-
-      //   // test a matching password
-      //   user.comparePassword('Password123', function(err, isMatch) {
-      //     if (err) throw err;
-      //     console.log('Password123:', isMatch);
-      //   });
-
-      //   user.comparePassword('123Password', function(err, isMatch) {
-      //     if (err) throw err;
-      //     console.log('123Password:', isMatch);
-      //   })
-      // });
-    });
+      if (user === null) {
+        var newUser = new User({
+          username: data['id'],
+          password: data['password'],
+          calories: data['calories']
+        });
+        newUser.save(function(err) {
+          if (err) throw err;
+        });
+        res.end(JSON.stringify({newUser: true}));
+      } else {
+        res.end(JSON.stringify({newUser: false}));
+      }
+    })
 
 
-    res.end(JSON.stringify({results: data}));
+
   });
 });
 
@@ -111,33 +100,3 @@ app.post('/login', function (req, res) {
 console.log("Listening on http://" + ip + ":" + port);
 
 app.listen(port, ip);
-
-
-
-
-// create a new user
-// var testUser = new User({
-//   username: 'jmar777',
-//   password: 'Password123'
-// })
-
-// // save user to database
-// testUser.save(function(err) {
-//   if (err) throw err;
-
-//   //fetch user and test password verification
-  // User.findOne({ username: 'jmar777'}, function(err, user) {
-  //   if (err) throw err;
-
-  //   // test a matching password
-  //   user.comparePassword('Password123', function(err, isMatch) {
-  //     if (err) throw err;
-  //     console.log('Password123:', isMatch);
-  //   });
-
-  //   user.comparePassword('123Password', function(err, isMatch) {
-  //     if (err) throw err;
-  //     console.log('123Password:', isMatch);
-  //   })
-  // });
-// });
