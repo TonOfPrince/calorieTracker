@@ -1,9 +1,11 @@
-<form class="center">
+<form class="center" ng-submit="login(id, pass)">
+  <label>User ID:</label><br>
   <input type="text" placeholder="User ID" ng-model="id"> <br><br>
+  <label>Password:</label><br>
   <input type="password" placeholder="Password" ng-model="pass"> <br><br>
   <div class="error" ng-show="incorrectPass">
     <span >Incorrect password, {{flash}}!</span>
   </div>
   <br ng-show="incorrectPass"><br ng-show="incorrectPass">
-  <input type="submit" ng-click="checkPass()">
+  <input type="submit">
 </form>

@@ -2,7 +2,8 @@ var calorieTracker = angular.module('calorieTrackerApp',
   ['ui.router',
    'ngCookies',
    'calorieTrackerApp.addEntry',
-   'calorieTrackerApp.signUp'
+   'calorieTrackerApp.signUp',
+   'calorieTrackerApp.login'
   ])
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/login");
@@ -16,7 +17,7 @@ var calorieTracker = angular.module('calorieTrackerApp',
     .state('login', {
       url: '/login',
       templateUrl: 'views/login.html',
-      // controller: 'LoginCtrl'
+      controller: 'LoginCtrl'
     })
     .state('calorieList', {
       url: '/calorieList',
