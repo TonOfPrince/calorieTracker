@@ -1,22 +1,23 @@
 angular.module('calorieTrackerApp.login', [])
 
-.controller('LoginCtrl', function($scope, $http, Login) {
-  angular.extend($scope, Login);
-})
-
-.factory('Login', function($http) {
-  var login = function(id, password) {
+.controller('LoginCtrl', function($scope, $http) {
+  // angular.extend($scope, Login);
+  $scope.isMatch = true;
+  $scope.login = function(id, password) {
     $http.post('/login', {id: id, password: password})
+      // data is the response i get back from the server
       .success(function(data, status, headers, config) {
-        console.log('success');
-        console.log(id);
-        console.log(password);
+        $scope.isMatch = data['isMatch'];
       })
       .error(function(data, status, headers, config) {
         console.log('error');
       })
   }
-  return {
-    login: login
-  }
+})
+
+.factory('Login', function($http) {
+
+  // return {
+  //   login: login
+  // }
 })

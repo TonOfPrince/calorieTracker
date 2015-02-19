@@ -52,7 +52,7 @@ app.post('/createUser', function (req, res) {
         var newUser = new User({
           username: data['id'],
           password: data['password'],
-          calories: data['calories']
+          expectedCalories: data['calories']
         });
         newUser.save(function(err) {
           if (err) throw err;
@@ -62,9 +62,6 @@ app.post('/createUser', function (req, res) {
         res.end(JSON.stringify({newUser: false}));
       }
     })
-
-
-
   });
 });
 
@@ -77,22 +74,20 @@ app.post('/login', function (req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    console.log(data);
-    console.log(data['password'])
 
     User.findOne({ username: data['id']}, function(err, user) {
       if (err) throw err;
       console.log(user);
-
       // test a matching password
       user.comparePassword(data['password'], function(err, isMatch) {
         if (err) throw err;
-        console.log(data['password'], isMatch);
+        // console.log(data['password'], isMatch);
+        res.end(JSON.stringify({isMatch: isMatch}));
+
       });
 
     });
 
-    res.end(JSON.stringify({results: messages}));
   });
 });
 
