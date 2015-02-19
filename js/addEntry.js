@@ -7,6 +7,7 @@ angular.module('calorieTrackerApp.addEntry', [])
 .factory('AddEntry', function($http) {
   var saveEntry = function(calories, comments, datetime) {
     $http.post('/saveEntry', {calories: calories, comments: comments, datetime: datetime})
+      // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         console.log('success');
         console.log(datetime)

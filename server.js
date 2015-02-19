@@ -17,7 +17,7 @@ var messages = []
 
 var connStr = 'mongodb://localhost:27017/calorieTracker';
 mongoose.connect(connStr, function(err) {
-  if (err) throw err;
+  if (err) console.log('error');
   console.log('Successfully connected to MongoDB');
 });
 
@@ -46,10 +46,49 @@ app.post('/createUser', function (req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
+    console.log(data['id']);
     console.log(data);
-    // data['objectId'] = objectId++;
-    // messages.push(data);
-    res.end(JSON.stringify({results: messages}));
+    var newUser = new User({
+      username: data['id'],
+      password: data['password'],
+      calories: data['calories']
+    });
+
+    newUser.save(function(err) {
+      if (err) console.log('error');
+
+      //fetch user and test password verification
+      // User.findOne({ username: data['id']}, function(err, user) {
+      //   if (err) console.log('error');
+
+      //   // test a matching password
+      //   user.comparePassword('Password123', function(err, isMatch) {
+      //     if (err) console.log('error');
+      //     console.log('Password123:', isMatch);
+      //   });
+
+      //   user.comparePassword('123Password', function(err, isMatch) {
+      //     if (err) console.log('error');
+      //     console.log('123Password:', isMatch);
+      //   })
+      // });
+    });
+    // User.findOne({ username: data['id']}, function(err, user) {
+    //   if (err) console.log('error');
+
+    //   // test a matching password
+    //   user.comparePassword('Password123', function(err, isMatch) {
+    //     if (err) console.log('error');
+    //     console.log('Password123:', isMatch);
+    //   });
+
+    //   user.comparePassword('123Password', function(err, isMatch) {
+    //     if (err) console.log('error');
+    //     console.log('123Password:', isMatch);
+    //   })
+    // });
+
+    res.end(JSON.stringify({results: data}));
   });
 });
 
@@ -85,21 +124,21 @@ app.listen(port, ip);
 
 // // save user to database
 // testUser.save(function(err) {
-//   if (err) throw err;
+//   if (err) console.log('error');
 
 //   //fetch user and test password verification
-//   User.findOne({ username: 'jmar777'}, function(err, user) {
-//     if (err) throw err;
+  // User.findOne({ username: 'jmar777'}, function(err, user) {
+  //   if (err) console.log('error');
 
-//     // test a matching password
-//     user.comparePassword('Password123', function(err, isMatch) {
-//       if (err) throw err;
-//       console.log('Password123:', isMatch);
-//     });
+  //   // test a matching password
+  //   user.comparePassword('Password123', function(err, isMatch) {
+  //     if (err) console.log('error');
+  //     console.log('Password123:', isMatch);
+  //   });
 
-//     user.comparePassword('123Password', function(err, isMatch) {
-//       if (err) throw err;
-//       console.log('123Password:', isMatch);
-//     })
-//   });
+  //   user.comparePassword('123Password', function(err, isMatch) {
+  //     if (err) console.log('error');
+  //     console.log('123Password:', isMatch);
+  //   })
+  // });
 // });
