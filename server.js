@@ -37,6 +37,22 @@ app.post('/saveEntry', function (req, res) {
   });
 });
 
+app.post('/createUser', function (req, res) {
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  res.status(201);
+  var data = "";
+  req.on('data', function(chunk) {
+    data += chunk;
+  });
+  req.on('end', function() {
+    data = JSON.parse(data);
+    console.log(data);
+    // data['objectId'] = objectId++;
+    // messages.push(data);
+    res.end(JSON.stringify({results: messages}));
+  });
+});
+
 //log where we are listening
 console.log("Listening on http://" + ip + ":" + port);
 

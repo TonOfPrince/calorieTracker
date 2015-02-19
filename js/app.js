@@ -11,7 +11,7 @@ var calorieTracker = angular.module('calorieTrackerApp',
     .state('signUp', {
       url: '/signUp',
       templateUrl: 'views/signUp.html',
-      // controller: 'LoginCtrl'
+      controller: 'SignUpCtrl'
     })
     .state('login', {
       url: '/login',
