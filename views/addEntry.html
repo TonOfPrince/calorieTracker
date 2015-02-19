@@ -1,0 +1,14 @@
+<form class="center" ng-submit="saveEntry(calories, comments, datetime)">
+  <label>Date and Time:</label><br>
+  <input type="datetime-local" placeholder="datetime" ng-model="datetime"> <br><br>
+  <label>Number of Calories: </label><br>
+  <input type="number" placeholder="Number of Calories" min=0 ng-model="calories"> <br><br>
+  <label>Comments:</label><br>
+  <textarea id="comment" placeholder="Text" ng-model="comments"> </textarea><br><br>
+
+<!--   <div class="error" ng-show="incorrectPass">
+    <span >Incorrect password, {{flash}}!</span>
+  </div> -->
+  <br ng-show="incorrectPass"><br ng-show="incorrectPass">
+  <input type="submit" value="Save Entry">
+</form>
