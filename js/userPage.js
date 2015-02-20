@@ -40,14 +40,8 @@ angular.module('calorieTrackerApp.userPage', [])
     console.log('entires ' + entries)
     var filteredResults = [];
     entries.forEach(function(entry) {
-      console.log('entry date ' + entry.date)
-      console.log('date From ' + dateFrom)
-      console.log('date To ' + dateTo)
-      console.log(dateTo >= dateFrom)
-      console.log(entry.date >= dateFrom)
-      console.log(entry.date <= dateTo)
-
-      if (entry.date >= dateFrom && entry.date <= dateTo) {
+      jsEntryDate = new Date(entry.date);
+      if (jsEntryDate >= dateFrom && jsEntryDate <= dateTo) {
         filteredResults.push(entry);
       }
     })
