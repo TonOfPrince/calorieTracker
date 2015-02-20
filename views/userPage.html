@@ -22,12 +22,28 @@
     </form>
   </div>
   <div class="addEntry">
-    <form ng-submit="saveEntry(calories, comments, datetime)">
+    <!-- <form ng-submit="saveEntry(calories, comments, datetime)">
       <label class="datetime">Date and Time: </label>
       <label class="calories">Number of Calories: </label>
       <label class="comments">Comments:</label>
       <br>
       <input type="datetime-local" placeholder="datetime" ng-model="datetime" class="datetime">
+
+      <input type="number" placeholder="Number of Calories" min=0 ng-model="calories" class="calories">
+      <textarea id="comment" placeholder="Text" ng-model="comments" class="comments"> </textarea>
+      <br ng-show="incorrectPass"><br ng-show="incorrectPass">
+      <br><br>
+      <input type="submit" value="Save Entry">
+    </form> -->
+    <form ng-submit="saveEntry(calories, comments, date, time)">
+      <label class="addDate">Date: </label>
+      <label class="addtime">Time: </label>
+
+      <label class="calories">Number of Calories: </label>
+      <label class="comments">Comments:</label>
+      <br>
+      <input type="date" placeholder="date" ng-model="date" class="addDate">
+      <input type="time" placeholder="time" ng-model="time" class="addTime">
 
       <input type="number" placeholder="Number of Calories" min=0 ng-model="calories" class="calories">
       <textarea id="comment" placeholder="Text" ng-model="comments" class="comments"> </textarea>
@@ -41,9 +57,14 @@
     </form>
   </div>
   <div class="content">
-    <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo">
-      <label>Date and Time: </label>
+    <!-- <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo | timeFilter:timeFrom:timeTo"> -->
+    <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo" >
+      <!-- <label>Date and Time: </label>
+      <div >{{entry.date}}</div> <br> -->
+      <label>Date: </label>
       <div >{{entry.date}}</div> <br>
+      <label>Time: </label>
+      <div >{{entry.time}}</div> <br>
       <label >Number of Calories: </label>
       <div >{{entry.calories}}</div> <br>
       <label >Comments:</label>

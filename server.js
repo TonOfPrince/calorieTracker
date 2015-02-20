@@ -102,7 +102,9 @@ app.post('/saveEntry', function (req, res) {
     console.log(data);
     var newEntry = new Entry({
       user: data['user'],
-      date: data['datetime'],
+      // date: data['datetime'],
+      date: data['date'],
+      time: data['time'],
       // time:,
       text: data['comments'],
       calories: data['calories']
