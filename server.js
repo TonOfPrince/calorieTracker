@@ -142,7 +142,6 @@ app.post('/login', function (req, res) {
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
-    console.log('chunk');
   });
   req.on('end', function() {
     data = JSON.parse(data);
@@ -154,14 +153,9 @@ app.post('/login', function (req, res) {
       user.comparePassword(data['password'], function(err, isMatch) {
         if (err) throw err;
         if (isMatch) {
-          Q.fcall(function() {
-            console.log('session starter');
-          }).then(function() {
-            console.log('session ' + JSON.stringify(req.session));
-            res.end(JSON.stringify({isMatch: isMatch}));
-          })
+          res.end(JSON.stringify({isMatch: isMatch}));
         } else {
-          console.log('session ' + JSON.stringify(req.session));
+          // console.log('session ' + JSON.stringify(req.session));
           res.end(JSON.stringify({isMatch: isMatch}));
         }
 
