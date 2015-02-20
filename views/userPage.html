@@ -6,8 +6,11 @@
   <!-- NG-REPEAT of CALORIES -->
   <div class="filter">
     <form>
-      <label class="date">Filter Date: </label>
-      <label class="time">Filter Time:</label> <br>
+      <label class="date">Filter Date </label>
+      <input type="checkbox" name="checkDate" value="dateCheck">
+      <input class="time" type="checkbox" name="checkTime" value="timeCheck">
+      <label class="time">Filter Time</label>
+      <br>
       <label class="date">From: </label>
       <input  class="date" type="date" placeholder="datetime" ng-model="dateFrom" >
       <input class="time" type="time" placeholder="datetime" ng-model="timeFrom" >
