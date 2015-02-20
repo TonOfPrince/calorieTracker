@@ -8,7 +8,7 @@ angular.module('calorieTrackerApp.addEntry', [])
 
 .factory('AddEntry', function($http, $cookieStore) {
   var saveEntry = function(calories, comments, datetime) {
-    $http.post('/saveEntry', {calories: calories, comments: comments, datetime: datetime.toString(), user: $cookieStore.get('user')})
+    $http.post('/saveEntry', {calories: calories, comments: comments, datetime: datetime, user: $cookieStore.get('user')})
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         console.log('success');

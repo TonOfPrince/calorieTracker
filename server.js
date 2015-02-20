@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var User = require('./models/user-model');
-var Calorie = require('./models/entry-model');
+var Entry = require('./models/entry-model');
 
 var express = require("express");
 // var exphbs = require('express-handlebars'),
@@ -100,7 +100,17 @@ app.post('/saveEntry', function (req, res) {
   req.on('end', function() {
     data = JSON.parse(data);
     console.log(data);
-    res.end(JSON.stringify({results: messages}));
+    var newEntry = new Entry({
+      user: data['user'],
+      date: data['datetime'],
+      // time:,
+      text: data['comments'],
+      calories: data['calories']
+    });
+    newEntry.save(function(err, entrySave) {
+      if (err) throw err;
+      res.end(JSON.stringify({user: entrySave.user, date: entrySave.date, text: entrySave.text, calories: entrySave.calories}));
+    });
   });
 });
 

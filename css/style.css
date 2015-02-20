@@ -23,9 +23,14 @@ body {
 .container {
   height: 100%;
   width: 100%;
+ /* margin-left: auto;
+  margin-right: auto;*/
+/*  padding-left: 20%;
+  padding-right: 20%;*/
 }
   .header {
     height: 10%;
+    width: 50%;
     /*position: absolute;*/
   }
     .user {
@@ -52,7 +57,7 @@ body {
       position: absolute;
     }
   .content {
-    top: 22%;
+    top: 27%;
     bottom: 0;
     width: 100%;
     position: absolute;
