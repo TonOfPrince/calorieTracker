@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="header">
+    <div class="user">Brett</div>
+    <div class="dailyCalories">1000</div>
+  </div>
+  <!-- NG-REPEAT of CALORIES -->
+  <div class="addEntry">
+    <form ng-submit="saveEntry(calories, comments, datetime)">
+      <label class="datetime">Date and Time: </label>
+      <label class="calories">Number of Calories: </label>
+      <label class="comments">Comments:</label>
+      <br>
+      <input type="datetime-local" placeholder="datetime" ng-model="datetime" class="datetime">
+
+      <input type="number" placeholder="Number of Calories" min=0 ng-model="calories" class="calories">
+      <textarea id="comment" placeholder="Text" ng-model="comments" class="comments"> </textarea>
+
+    <!--   <div class="error" ng-show="incorrectPass">
+        <span >Incorrect password, {{flash}}!</span>
+      </div> -->
+      <br ng-show="incorrectPass"><br ng-show="incorrectPass">
+      <br><br>
+      <input type="submit" value="Save Entry">
+    </form>
+  </div>
+  <div class="content">
+d
+  </div>
+</div>

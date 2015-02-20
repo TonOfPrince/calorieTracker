@@ -20,3 +20,41 @@ body {
 .full {
   width: 100%;
 }
+.container {
+  height: 100%;
+  width: 100%;
+}
+  .header {
+    height: 10%;
+    /*position: absolute;*/
+  }
+    .user {
+      float: left;
+    }
+    .dailyCalories {
+      float: right;
+    }
+  .addEntry {
+    top: 10%;
+    height: 10%;
+    position: absolute;
+  }
+    .datetime {
+      float: left;
+    }
+    .calories {
+      left: 150%;
+      width: 100%;
+      position: absolute;
+    }
+    .comments {
+      left: 300%;
+      position: absolute;
+    }
+  .content {
+    top: 22%;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    overflow: auto;
+  }

@@ -29,4 +29,9 @@ var calorieTracker = angular.module('calorieTrackerApp',
       templateUrl: 'views/addEntry.html',
       controller: 'AddEntryCtrl'
     })
+    .state('userPage', {
+      url: '/userPage',
+      templateUrl: 'views/userPage.html'
+      // controller: 'UserPageCtrl'
+    })
 });
