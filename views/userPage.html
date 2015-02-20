@@ -22,19 +22,6 @@
     </form>
   </div>
   <div class="addEntry">
-    <!-- <form ng-submit="saveEntry(calories, comments, datetime)">
-      <label class="datetime">Date and Time: </label>
-      <label class="calories">Number of Calories: </label>
-      <label class="comments">Comments:</label>
-      <br>
-      <input type="datetime-local" placeholder="datetime" ng-model="datetime" class="datetime">
-
-      <input type="number" placeholder="Number of Calories" min=0 ng-model="calories" class="calories">
-      <textarea id="comment" placeholder="Text" ng-model="comments" class="comments"> </textarea>
-      <br ng-show="incorrectPass"><br ng-show="incorrectPass">
-      <br><br>
-      <input type="submit" value="Save Entry">
-    </form> -->
     <form ng-submit="saveEntry(calories, comments, date, time)">
       <label class="addDate">Date: </label>
       <label class="addtime">Time: </label>
@@ -57,10 +44,7 @@
     </form>
   </div>
   <div class="content">
-    <!-- <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo | timeFilter:timeFrom:timeTo"> -->
-    <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo" >
-      <!-- <label>Date and Time: </label>
-      <div >{{entry.date}}</div> <br> -->
+    <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo | timeFilter:timeFrom:timeTo">
       <label>Date: </label>
       <div >{{entry.date}}</div> <br>
       <label>Time: </label>
