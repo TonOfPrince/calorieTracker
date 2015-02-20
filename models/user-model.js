@@ -8,7 +8,8 @@ var UserSchema = new Schema({
   username: { type: String, required: true, index: { unique: true} },
   password: { type: String, required: true },
   entries: { type: Array },
-  expectedCalories: { type: Number }
+  expectedCalories: { type: Number },
+  token: { type: String }
 });
 
 UserSchema.pre('save', function(next) {

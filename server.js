@@ -11,23 +11,35 @@ var express = require("express");
 // var session = require('express-session'),
 // var passport = require('passport'),
 // var LocalStrategy = require('passport-local'),
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var morgan = require("morgan");
+var bodyParser = require("body-parser");
+var jwt = require("jsonwebtoken");
+// var session = require('express-session');
+// var MongoStore = require('connect-mongo')(session);
 var cookieParser = require('cookie-parser');
 var Q = require('q');
 var app = express();
 
 //port
-var port = 3000;
+var port = process.env.PORT || 3000;
 
 //ip
 var ip = "127.0.0.1";
 
 app.use(express.static(__dirname));
-app.use(cookieParser());
+// app.use(cookieParser());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+app.use(morgan("dev"));
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
+    next();
+});
 
 
-var messages = []
+var messages = [];
 
 var connStr = 'mongodb://localhost:27017/calorieTracker';
 mongoose.connect(connStr, function(err) {
@@ -54,6 +66,30 @@ var genuuid = function() {
 //   store: new MongoStore({url: connStr})
 // }));
 
+// app.post('/authenticate', function(req, res) {
+//   User.findOne({username: req.body.id, password: req.body.password}, function(err, user) {
+//     if (err) {
+//       res.json({
+//         type: false,
+//         data: "Error occured: " + err
+//       });
+//     } else {
+//       if (user) {
+//         res.json({
+//           type: true,
+//           data: user,
+//           token: user.token
+//         });
+//       } else {
+//         res.json({
+//           type: false,
+//           data: "Incorrect email/password"
+//         });
+//       }
+//     }
+//   });
+// });
+
 app.post('/saveEntry', function (req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -78,19 +114,21 @@ app.post('/createUser', function (req, res) {
   req.on('end', function() {
     data = JSON.parse(data);
     console.log(data['id']);
-    console.log(data);
-    User.findOne({ username: data['id']}, function(err, user) {
+    console.log('data ', data);
+    User.findOne({ username: data['id']}, function(err, userFind) {
       if (err) throw err;
-      if (user === null) {
+      if (userFind === null) {
         var newUser = new User({
           username: data['id'],
           password: data['password'],
           expectedCalories: data['calories']
+          // token: genuuid()
+          // token: jwt.sign(userFind, process.env.JWT_SECRET)
         });
-        newUser.save(function(err) {
+        newUser.save(function(err, userSave) {
           if (err) throw err;
+          res.end(JSON.stringify({newUser: true, token: userSave.token}));
         });
-        res.end(JSON.stringify({newUser: true}));
       } else {
         res.end(JSON.stringify({newUser: false}));
       }
@@ -104,6 +142,7 @@ app.post('/login', function (req, res) {
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
+    console.log('chunk');
   });
   req.on('end', function() {
     data = JSON.parse(data);
@@ -117,15 +156,6 @@ app.post('/login', function (req, res) {
         if (isMatch) {
           Q.fcall(function() {
             console.log('session starter');
-            app.use(session({
-              genid: function(req) {
-                return genuuid()
-              },
-              secret: 'closed doors',
-              resave: false,
-              saveUninitialized: false,
-              store: new MongoStore({url: connStr})
-            }));
           }).then(function() {
             console.log('session ' + JSON.stringify(req.session));
             res.end(JSON.stringify({isMatch: isMatch}));
