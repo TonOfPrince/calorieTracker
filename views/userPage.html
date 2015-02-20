@@ -4,6 +4,20 @@
     <div class="dailyCalories">1000</div>
   </div>
   <!-- NG-REPEAT of CALORIES -->
+  <div class="filter">
+    <form>
+      <label class="date">Filter Date: </label>
+      <label class="time">Filter Time:</label> <br>
+      <label class="date">From: </label>
+      <input  class="date" type="date" placeholder="datetime" ng-model="dateFrom" >
+      <input class="time" type="time" placeholder="datetime" ng-model="timeFrom" >
+      <label class="time">From: </label> <br>
+      <input class="time" type="time" placeholder="datetime" ng-model="timeTo">
+      <label class="date">To: </label>
+      <input  class="date" type="date" placeholder="datetime" ng-model="dateTo" >
+      <label class="time">To: </label> <br>
+    </form>
+  </div>
   <div class="addEntry">
     <form ng-submit="saveEntry(calories, comments, datetime)">
       <label class="datetime">Date and Time: </label>

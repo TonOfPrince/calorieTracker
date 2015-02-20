@@ -39,8 +39,21 @@ body {
     .dailyCalories {
       float: right;
     }
-  .addEntry {
+  .filter {
     top: 10%;
+    position: absolute;
+    height: 10%;
+    width: 50%;
+  }
+    .date {
+      float:left;
+    }
+    .time {
+      float: right;
+      /*right:0;*/
+    }
+  .addEntry {
+    top: 23%;
     height: 10%;
     position: absolute;
   }
@@ -57,7 +70,7 @@ body {
       position: absolute;
     }
   .content {
-    top: 27%;
+    top: 40%;
     bottom: 0;
     width: 100%;
     position: absolute;
