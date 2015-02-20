@@ -41,7 +41,7 @@
     </form>
   </div>
   <div class="content">
-    <div ng-repeat="entry in userEntries">
+    <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo">
       <label>Date and Time: </label>
       <div >{{entry.date}}</div> <br>
       <label >Number of Calories: </label>
@@ -49,9 +49,6 @@
       <label >Comments:</label>
       <div >{{entry.text}}</div>
       <br>
-
-
-
     </div>
   </div>
 </div>

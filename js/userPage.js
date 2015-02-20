@@ -8,6 +8,7 @@ angular.module('calorieTrackerApp.userPage', [])
     .success(function(data, status, headers, config) {
         console.log('success');
         $scope.userEntries = data.entries;
+
         console.log(data)
       })
       .error(function(data, status, headers, config) {
@@ -34,3 +35,23 @@ angular.module('calorieTrackerApp.userPage', [])
     saveEntry: saveEntry
   }
 })
+.filter('dateFilter', function() {
+  return function(entries, dateFrom, dateTo) {
+    console.log('entires ' + entries)
+    var filteredResults = [];
+    entries.forEach(function(entry) {
+      console.log('entry date ' + entry.date)
+      console.log('date From ' + dateFrom)
+      console.log('date To ' + dateTo)
+      console.log(dateTo >= dateFrom)
+      console.log(entry.date >= dateFrom)
+      console.log(entry.date <= dateTo)
+
+      if (entry.date >= dateFrom && entry.date <= dateTo) {
+        filteredResults.push(entry);
+      }
+    })
+    return filteredResults;
+  }
+});
+// .filter('timeFilter')
