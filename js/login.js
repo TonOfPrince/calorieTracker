@@ -1,6 +1,6 @@
 angular.module('calorieTrackerApp.login', [])
 
-.controller('LoginCtrl', function($scope, $http) {
+.controller('LoginCtrl', function($scope, $http, $state, $cookieStore) {
   // angular.extend($scope, Login);
   $scope.isMatch = true;
   $scope.login = function(id, password) {
@@ -8,6 +8,9 @@ angular.module('calorieTrackerApp.login', [])
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         $scope.isMatch = data['isMatch'];
+        $cookieStore.put('user', id);
+        $state.go('addEntry');
+        console.log(data);
       })
       .error(function(data, status, headers, config) {
         console.log('error');

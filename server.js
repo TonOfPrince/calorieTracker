@@ -121,9 +121,9 @@ app.post('/createUser', function (req, res) {
         var newUser = new User({
           username: data['id'],
           password: data['password'],
-          expectedCalories: data['calories']
+          expectedCalories: data['calories'],
           // token: genuuid()
-          // token: jwt.sign(userFind, process.env.JWT_SECRET)
+          token: jwt.sign(data['id'], "MY_SECRET")
         });
         newUser.save(function(err, userSave) {
           if (err) throw err;
@@ -153,7 +153,8 @@ app.post('/login', function (req, res) {
       user.comparePassword(data['password'], function(err, isMatch) {
         if (err) throw err;
         if (isMatch) {
-          res.end(JSON.stringify({isMatch: isMatch}));
+          // User.update({username: data['id']}, {token: jwt.sign(user, "MY_SECRET")})
+          res.end(JSON.stringify({isMatch: isMatch, token: jwt.sign(user, "MY_SECRET")}));
         } else {
           // console.log('session ' + JSON.stringify(req.session));
           res.end(JSON.stringify({isMatch: isMatch}));
