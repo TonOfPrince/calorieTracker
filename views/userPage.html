@@ -24,6 +24,17 @@
     </form>
   </div>
   <div class="content">
-d
+    <div ng-repeat="entry in userEntries">
+      <label>Date and Time: </label>
+      <div >{{entry.date}}</div> <br>
+      <label >Number of Calories: </label>
+      <div >{{entry.calories}}</div> <br>
+      <label >Comments:</label>
+      <div >{{entry.text}}</div>
+      <br>
+
+
+
+    </div>
   </div>
 </div>

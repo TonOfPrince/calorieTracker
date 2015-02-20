@@ -1,7 +1,7 @@
 var calorieTracker = angular.module('calorieTrackerApp',
   ['ui.router',
    'ngCookies',
-   'calorieTrackerApp.addEntry',
+   'calorieTrackerApp.userPage',
    'calorieTrackerApp.signUp',
    'calorieTrackerApp.login'
   ])
@@ -24,14 +24,14 @@ var calorieTracker = angular.module('calorieTrackerApp',
       templateUrl: 'views/calorieList.html',
       // controller: 'LoginCtrl'
     })
-    .state('addEntry', {
-      url: '/addEntry',
-      templateUrl: 'views/addEntry.html',
-      controller: 'AddEntryCtrl'
-    })
+    // .state('addEntry', {
+    //   url: '/addEntry',
+    //   templateUrl: 'views/addEntry.html',
+    //   controller: 'AddEntryCtrl'
+    // })
     .state('userPage', {
       url: '/userPage',
       templateUrl: 'views/userPage.html',
-      controller: 'AddEntryCtrl'
+      controller: 'UserPageCtrl'
     })
 });

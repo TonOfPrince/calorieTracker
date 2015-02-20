@@ -1,12 +1,21 @@
-angular.module('calorieTrackerApp.addEntry', [])
+angular.module('calorieTrackerApp.userPage', [])
 
-.controller('AddEntryCtrl', function($scope, $http, AddEntry, $cookieStore) {
-  angular.extend($scope, AddEntry);
+.controller('UserPageCtrl', function($scope, $http, UserPage, $cookieStore) {
+  angular.extend($scope, UserPage);
   console.log($cookieStore.get('user'));
-
+  // $scope.calories = $http.post('/calories', {id: $cookieStore.get('user')});
+  $http.post('/calories', {id: $cookieStore.get('user')})
+    .success(function(data, status, headers, config) {
+        console.log('success');
+        $scope.userEntries = data.entries;
+        console.log(data)
+      })
+      .error(function(data, status, headers, config) {
+        console.log('error');
+      })
 })
 
-.factory('AddEntry', function($http, $cookieStore) {
+.factory('UserPage', function($http, $cookieStore) {
   var saveEntry = function(calories, comments, datetime) {
     $http.post('/saveEntry', {calories: calories, comments: comments, datetime: datetime, user: $cookieStore.get('user')})
       // data is the response i get back from the server

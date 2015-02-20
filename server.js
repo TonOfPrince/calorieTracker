@@ -177,6 +177,21 @@ app.post('/login', function (req, res) {
   });
 });
 
+app.post('/calories', function(req, res) {
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  res.status(201);var data = "";
+  req.on('data', function(chunk) {
+    data += chunk;
+  });
+  req.on('end', function() {
+    data = JSON.parse(data);
+    Entry.find({user: data['id']}, function(err, entries) {
+      console.log()
+      res.end(JSON.stringify({entries: entries}));
+    });
+  });
+});
+
 //log where we are listening
 console.log("Listening on http://" + ip + ":" + port);
 
