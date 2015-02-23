@@ -41,9 +41,9 @@ angular.module('calorieTrackerApp.userPage', [])
         console.log($scope.dailyCalories);
         console.log($scope.expectedCalories);
         if ($scope.dailyCalories < $scope.expectedCalories) {
-          $('.dailyCalories').addClass('under');
+          $('#dailyCalories').addClass('under');
         } else {
-          $('.dailyCalories').addClass('over');
+          $('#dailyCalories').addClass('over');
         }
       });
     });
