@@ -9,7 +9,7 @@ angular.module('calorieTrackerApp.login', [])
       .success(function(data, status, headers, config) {
         $scope.isMatch = data['isMatch'];
         $cookieStore.put('user', id);
-        $state.go('addEntry');
+        $state.go('userPage');
         console.log(data);
       })
       .error(function(data, status, headers, config) {

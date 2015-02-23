@@ -179,16 +179,31 @@ app.post('/login', function (req, res) {
   });
 });
 
+app.post('/expectedCalories', function(req, res) {
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  res.status(201);
+  var data = "";
+  req.on('data', function(chunk) {
+    data += chunk;
+  });
+  req.on('end', function() {
+    data = JSON.parse(data);
+    User.findOne({username: data['id']}, function(err, user) {
+      res.end(JSON.stringify({expectedCalories: user.expectedCalories}));
+    });
+  });
+});
+
 app.post('/calories', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);var data = "";
+  res.status(201);
+  var data = "";
   req.on('data', function(chunk) {
     data += chunk;
   });
   req.on('end', function() {
     data = JSON.parse(data);
     Entry.find({user: data['id']}, function(err, entries) {
-      console.log()
       res.end(JSON.stringify({entries: entries}));
     });
   });

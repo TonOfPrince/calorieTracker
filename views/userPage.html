@@ -1,14 +1,16 @@
 <div class="container">
   <div class="header">
     <div class="user">Brett</div>
-    <div class="dailyCalories">1000</div>
+    <!-- <div class="dailyCalories" >1000</div> -->
+    <div class="dailyCalories" >{{expectedCalories}}</div>
+
   </div>
   <!-- NG-REPEAT of CALORIES -->
   <div class="filter">
     <form>
       <label class="date">Filter Date </label>
-      <input type="checkbox" name="checkDate" value="dateCheck">
-      <input class="time" type="checkbox" name="checkTime" value="timeCheck">
+      <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate">
+      <input class="time" type="checkbox" name="checkTime" value="timeCheck" ng-model="checkTime">
       <label class="time">Filter Time</label>
       <br>
       <label class="date">From: </label>
@@ -44,7 +46,7 @@
     </form>
   </div>
   <div class="content">
-    <div ng-repeat="entry in userEntries | dateFilter:dateFrom:dateTo | timeFilter:timeFrom:timeTo">
+    <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo | timeFilter:timeFrom:timeTo">
       <label>Date: </label>
       <div >{{entry.date}}</div> <br>
       <label>Time: </label>
