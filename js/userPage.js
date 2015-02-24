@@ -80,11 +80,17 @@ angular.module('calorieTrackerApp.userPage', [])
       });
       resolve(result);
     });
-
   }
+
+  var deleteEntry = function(entry) {
+    console.log(entry);
+    $http.post("/deleteEntry", entry);
+  }
+
   return {
     saveEntry: saveEntry,
-    sumCalories: sumCalories
+    sumCalories: sumCalories,
+    deleteEntry: deleteEntry
   }
 })
 // filter on a from and to date
