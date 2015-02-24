@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="header">
+<div class="userPage">
+  <div class="header center">
     <div class="user">Brett</div>
     <!-- <div class="dailyCalories" >1000</div> -->
     <div class="dailyCalories">Expected Number of Daily Calories:
@@ -7,25 +7,7 @@
     </div>
 
   </div>
-  <!-- NG-REPEAT of CALORIES -->
-  <div class="filter">
-    <form>
-      <label class="date">Filter Date </label>
-      <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate">
-      <input class="time" type="checkbox" name="checkTime" value="timeCheck" ng-model="checkTime">
-      <label class="time">Filter Time</label>
-      <br>
-      <label class="date">From: </label>
-      <input  class="date" type="date" placeholder="datetime" ng-model="dateFrom" >
-      <input class="time" type="time" placeholder="datetime" ng-model="timeFrom" >
-      <label class="time">From: </label> <br>
-      <input class="time" type="time" placeholder="datetime" ng-model="timeTo">
-      <label class="date">To: </label>
-      <input  class="date" type="date" placeholder="datetime" ng-model="dateTo" >
-      <label class="time">To: </label> <br>
-    </form>
-  </div>
-  <div class="addEntry">
+  <div class="addEntry center">
     <form ng-submit="saveEntry(calories, comments, date, time)">
       <label class="addDate">Date: </label>
       <label class="addtime">Time: </label>
@@ -47,8 +29,27 @@
       <input type="submit" value="Save Entry">
     </form>
   </div>
-  <div class="content">
-    <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo | timeFilter:timeFrom:timeTo">
+  <!-- NG-REPEAT of CALORIES -->
+  <div class="filter center">
+    <form>
+      <label class="date">Filter Date </label>
+      <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate">
+      <input class="time" type="checkbox" name="checkTime" value="timeCheck" ng-model="checkTime">
+      <label class="time">Filter Time</label>
+      <br>
+      <label class="date">From: </label>
+      <input  class="date" type="date" placeholder="datetime" ng-model="dateFrom" >
+      <input class="time" type="time" placeholder="datetime" ng-model="timeFrom" >
+      <label class="time">From: </label> <br>
+      <input class="time" type="time" placeholder="datetime" ng-model="timeTo">
+      <label class="date">To: </label>
+      <input  class="date" type="date" placeholder="datetime" ng-model="dateTo" >
+      <label class="time">To: </label> <br>
+    </form>
+  </div>
+
+  <div class="content center">
+    <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
       <label>Date: </label>
       <div >{{entry.date}}</div> <br>
       <label>Time: </label>
@@ -57,7 +58,8 @@
       <div >{{entry.calories}}</div> <br>
       <label >Comments:</label>
       <div >{{entry.text}}</div>
-      <br>
+      <input type="button" ng-click="editEntry(entry)" value="Edit Entry"></input type="button">
+      <br><br>
     </div>
   </div>
 </div>

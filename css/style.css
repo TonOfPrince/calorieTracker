@@ -20,7 +20,7 @@ body {
 .full {
   width: 100%;
 }
-.container {
+.userPage {
   height: 100%;
   width: 100%;
  /* margin-left: auto;
@@ -31,7 +31,7 @@ body {
   .header {
     height: 10%;
     width: 50%;
-    /*position: absolute;*/
+    position: absolute;
   }
     .user {
       float: left;
@@ -40,7 +40,7 @@ body {
       float: right;
     }
   .filter {
-    top: 10%;
+    top: 25%;
     position: absolute;
     height: 10%;
     width: 50%;
@@ -53,26 +53,27 @@ body {
       /*right:0;*/
     }
   .addEntry {
-    top: 23%;
+    top: 10%;
     height: 10%;
+    width: 50%;
     position: absolute;
   }
     .datetime {
       float: left;
     }
     .calories {
-      left: 150%;
+      left: 50%;
       width: 100%;
       position: absolute;
     }
     .comments {
-      left: 300%;
+      left: 75%;
       position: absolute;
     }
   .content {
     top: 40%;
     bottom: 0;
-    width: 100%;
+    width: 50%;
     position: absolute;
     overflow: auto;
   }
@@ -82,4 +83,9 @@ body {
 }
 .over {
   color: green;
+}
+.center {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
 }

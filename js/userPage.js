@@ -34,9 +34,6 @@ angular.module('calorieTrackerApp.userPage', [])
         // saves the sum of the users daily calories to scope
         $scope.dailyCalories = $scope.sumCalories($scope.userEntries).$$state.value;
         resolve();
-        // console.log($scope.sumCalories($scope.userEntries).$$state.value);
-        // if ($scope.expectedCalories < )
-        // console.log($scope.expectedCalories);
       }).then(function() {
         console.log($scope.dailyCalories);
         console.log($scope.expectedCalories);
@@ -92,28 +89,37 @@ angular.module('calorieTrackerApp.userPage', [])
 })
 // filter on a from and to date
 .filter('dateFilter', function() {
-  return function(entries, dateFrom, dateTo) {
-    var filteredResults = [];
-    entries.forEach(function(entry) {
-      jsEntryDate = new Date(entry.date);
-      if (jsEntryDate >= dateFrom && jsEntryDate <= dateTo) {
-        filteredResults.push(entry);
-      }
-    })
-    return filteredResults;
+  return function(entries, dateFrom, dateTo, isChecked) {
+    if (isChecked) {
+      var filteredResults = [];
+      entries.forEach(function(entry) {
+        jsEntryDate = new Date(entry.date);
+        if (jsEntryDate >= dateFrom && jsEntryDate <= dateTo) {
+          filteredResults.push(entry);
+        }
+      })
+      return filteredResults;
+    } else {
+      return entries;
+    }
   }
 })
 // filter on a from and to time
 .filter('timeFilter', function() {
-  return function(entries, timeFrom, timeTo) {
-    console.log('entires ' + entries)
-    var filteredResults = [];
-    entries.forEach(function(entry) {
-      jsEntryTime = new Date(entry.time);
-      if (jsEntryTime >= timeFrom.getTime() && jsEntryTime <= timeTo.getTime()) {
-        filteredResults.push(entry);
-      }
-    })
-    return filteredResults;
+  return function(entries, timeFrom, timeTo, isChecked) {
+    // console.log(isChecked)
+    if (isChecked) {
+      console.log('entires ' + entries)
+      var filteredResults = [];
+      entries.forEach(function(entry) {
+        jsEntryTime = new Date(entry.time);
+        if (jsEntryTime >= timeFrom.getTime() && jsEntryTime <= timeTo.getTime()) {
+          filteredResults.push(entry);
+        }
+      })
+      return filteredResults;
+    } else {
+      return entries;
+    }
   }
 })
