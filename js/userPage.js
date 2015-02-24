@@ -3,7 +3,8 @@ angular.module('calorieTrackerApp.userPage', [])
 .controller('UserPageCtrl', function($scope, $http, UserPage, $cookieStore, $q) {
   // extend factory to the controller
   angular.extend($scope, UserPage);
-  console.log($cookieStore.get('user'));
+  // saves the user to the scope to be displayed
+  $scope.user = $cookieStore.get('user');
   $q(function(resolve, reject) {
     $http.post('/calories', {id: $cookieStore.get('user')})
       .success(function(data, status, headers, config) {
