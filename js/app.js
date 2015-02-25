@@ -1,6 +1,5 @@
 var calorieTracker = angular.module('calorieTrackerApp',
   ['ui.router',
-   'ngCookies',
    'calorieTrackerApp.userPage',
    'calorieTrackerApp.signUp',
    'calorieTrackerApp.login'

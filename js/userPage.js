@@ -15,7 +15,7 @@ angular.module('calorieTrackerApp.userPage', [])
         })
         .error(function(data, status, headers, config) {
           console.log('error');
-          reject()
+          reject();
         });
   }).then(function() {
     $q(function(resolve,reject) {
@@ -135,7 +135,6 @@ angular.module('calorieTrackerApp.userPage', [])
 // filter on a from and to time
 .filter('timeFilter', function() {
   return function(entries, timeFrom, timeTo, isChecked) {
-    // console.log(isChecked)
     if (isChecked) {
       console.log('entires ' + entries)
       var filteredResults = [];
