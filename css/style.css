@@ -10,11 +10,7 @@ div.user {
   font-size: 1.5em;
   font-weight: bold;
 }
-h2.user {
-  /*font-size: 1.5em;*/
-  /*font-style: bold;*/
-  text-align: left;
-}
+
 .easyCenter {
   margin-top: 12%;
   margin-right: auto;
@@ -76,7 +72,7 @@ h2.user {
       position: absolute;
     }
   .filter {
-    top: 30%;
+    top: 26%;
     height: 20%;
     width: 50%;
   }
@@ -84,11 +80,12 @@ h2.user {
       float:left;
     }
     .time {
-      float: right;
+      /*float: right;*/
+      margin-left: 40%;
     }
 
   .content {
-    top: 50%;
+    top: 44%;
     bottom: 5%;
   }
 
@@ -102,9 +99,13 @@ h2.user {
   cursor: pointer;
   font-size: 80%;
 }
-hr {
-  bottom:0%;
-}
 .editForm {
-  float: right;
+  /*float: right;*/
+      margin-left: 25%;
+      position: absolute;
+      /*float: left;*/
+}
+.listItem {
+  /*width: 30%;*/
+  display: table;
 }

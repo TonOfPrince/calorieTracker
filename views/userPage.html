@@ -30,26 +30,45 @@
 <div class="filter center">
   <h2> Filter Entries </h2>
   <form>
-    <label class="date">Filter Date </label>
+    <!-- <label class="date">Filter Date </label>
     <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate">
     <input class="time" type="checkbox" name="checkTime" value="timeCheck" ng-model="checkTime">
     <label class="time">Filter Time</label>
     <br>
-    <label class="date">From: </label>
+    <label class="date">From:&nbsp;</label>
     <input  class="date" type="date" placeholder="datetime" ng-model="dateFrom" >
     <input class="time" type="time" placeholder="datetime" ng-model="timeFrom" >
-    <label class="time">From: </label> <br>
+    <label class="time">From:&nbsp;</label> <br>
     <input class="time" type="time" placeholder="datetime" ng-model="timeTo">
-    <label class="date">To: </label>
+    <label class="date">To:&nbsp;</label>
     <input  class="date" type="date" placeholder="datetime" ng-model="dateTo" >
-    <label class="time">To: </label> <br>
+    <label class="time">To:&nbsp;</label> <br> -->
+    <div class="date">
+      <label >Filter Date </label>
+      <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate"> <br>
+      <label>From:&nbsp;</label>
+      <input type="date" placeholder="datetime" ng-model="dateFrom" > <br>
+      <label>To:&nbsp;</label>
+      <input type="date" placeholder="datetime" ng-model="dateTo" >
+      <br>
+    </div>
+
+    <div class="time">
+      <label >Filter Time</label>
+      <input type="checkbox" name="checkTime" value="timeCheck" ng-model="checkTime"> <br>
+      <label >From:&nbsp;</label>
+      <input type="time" placeholder="datetime" ng-model="timeFrom"> <br>
+      <label >To:&nbsp;</label>
+      <input type="time" placeholder="datetime" ng-model="timeTo">
+    </div>
   </form>
 </div>
 <!-- NG-REPEAT of CALORIES -->
 <div class="content center">
   <h2> List of Entries </h2>
   <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
-    <form id="editForm" class="editForm" ng-show="editing(entry)" ng-submit="updateEntry(entry, editCalories, editText, editDate, editTime)">
+
+    <form class="editForm" ng-show="editing(entry)" ng-submit="updateEntry(entry, editCalories, editText, editDate, editTime)">
       <label>Date: </label> <br>
       <input type="date" placeholder="date" ng-model="editDate" required>
       <br>
@@ -64,9 +83,8 @@
       <label >Text:</label><br>
       <textarea id="comment" placeholder="Text" ng-model="editText" required> </textarea><br>
       <input type="submit" value="Save Entry" ng-show="editing(entry)"></input type="button">
-
     </form>
-    <div>
+    <div class="listItem">
       <label>Date: </label>
       <div>{{dateFormat(entry.date)}}</div>
       <br>
@@ -78,11 +96,12 @@
       <br>
       <label >Text:</label>
       <div>{{entry.text}}</div>
+      <input type="button" ng-click="editEntry(entry)" value="Edit Entry" ng-hide="editing(entry)"></input type="button">
+      <input type="button" ng-click="closeEdit(entry)" value="Close Edit" ng-show="editing(entry)"></input type="button">
+      <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
     </div>
 
-    <input type="button" ng-click="editEntry(entry)" value="Edit Entry" ng-hide="editing(entry)"></input type="button">
-    <input type="button" ng-click="closeEdit(entry)" value="Close Edit" ng-show="editing(entry)"></input type="button">
-    <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
+
     <br><br><br><br>
   </div>
 </div>
