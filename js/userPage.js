@@ -1,6 +1,6 @@
 angular.module('calorieTrackerApp.userPage', [])
 
-.controller('UserPageCtrl', function($scope, $http, UserPage, $cookieStore, $q) {
+.controller('UserPageCtrl', function($scope, $http, UserPage, $q) {
   // extend factory to the controller
   angular.extend($scope, UserPage);
   // saves the user to the scope to be displayed
@@ -50,7 +50,7 @@ angular.module('calorieTrackerApp.userPage', [])
 
 })
 
-.factory('UserPage', function($http, $cookieStore, $q, $rootScope) {
+.factory('UserPage', function($http, $q, $rootScope) {
   // saves an entry to the database
   var saveEntry = function(calories, comments, date, time) {
     // makes a post request to the server to save the entry
