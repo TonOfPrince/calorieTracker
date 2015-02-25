@@ -33,10 +33,13 @@ angular.module('calorieTrackerApp.userPage', [])
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         console.log('success');
-        console.log(data);
+        // reset form
+        $scope.addEntry.$setPristine();
+        $scope.date = "";
+        $scope.time = "";
+        $scope.calories = "";
+        $scope.comments ="";
         var key = Object.keys($scope.userEntries).length
-        console.log(key);
-        // console.log();
         $scope.userEntries[key] = data.entry;
         $scope.apply;
       })
