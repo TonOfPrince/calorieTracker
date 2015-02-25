@@ -5,7 +5,6 @@ angular.module('calorieTrackerApp.userPage', [])
   angular.extend($scope, UserPage);
   var inEdit = {};
   $scope.editing = function(entry) {
-    console.log(inEdit[entry._id]);
     if (entry && inEdit[entry._id]) {
       return true;
     }
@@ -16,8 +15,6 @@ angular.module('calorieTrackerApp.userPage', [])
       .success(function(data, status, headers, config) {
           console.log('success');
           $scope.userEntries = data.entries;
-          // $scope.user = data.user;
-          // resolve();
         })
         .error(function(data, status, headers, config) {
           console.log('error');
@@ -74,8 +71,11 @@ angular.module('calorieTrackerApp.userPage', [])
       });
   }
 
+  $scope.closeEdit = function(entry) {
+    delete inEdit[entry._id];
+  }
+
   $scope.editEntry = function(entry) {
-    console.log(entry);
     inEdit[entry._id] = true;
   }
 

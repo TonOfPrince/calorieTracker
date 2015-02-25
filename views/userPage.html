@@ -45,7 +45,7 @@
 <!-- NG-REPEAT of CALORIES -->
 <div class="content center">
   <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
-    <form id="editForm" class="editForm" ng-show="editing(entry)" ng-click="updateEntry(entry, editCalories, editText, editDate, editTime)">
+    <form id="editForm" class="editForm" ng-show="editing(entry)" ng-submit="updateEntry(entry, editCalories, editText, editDate, editTime)">
       <label>Date: </label> <br>
       <input type="date" placeholder="date" ng-model="editDate" required>
       <br>
@@ -77,6 +77,8 @@
     <input type="button" ng-click="editEntry(entry)" value="Edit Entry" ng-hide="editing(entry)"></input type="button">
     <input type="submit" form="editForm"  value="Save Entry" ng-show="editing(entry)"></input type="button">
     <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
+    <input type="button" ng-click="closeEdit(entry)" value="Close Edit" ng-show="editing(entry)"></input type="button">
+
     <br><br>
   </div>
 </div>
