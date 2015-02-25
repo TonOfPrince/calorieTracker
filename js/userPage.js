@@ -13,11 +13,9 @@ angular.module('calorieTrackerApp.userPage', [])
   var fetchEntries = function(resolve, reject) {
     $http.post('/calories', {token: sessionStorage.token})
       .success(function(data, status, headers, config) {
-          console.log('success');
           $scope.userEntries = data.entries;
         })
         .error(function(data, status, headers, config) {
-          console.log('error');
           reject();
         });
   }
@@ -28,7 +26,6 @@ angular.module('calorieTrackerApp.userPage', [])
     $http.post('/saveEntry', {calories: calories, comments: comments, date: date,  time: time, token: sessionStorage.token})
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
-        console.log('success');
         // reset form
         $scope.addEntry.$setPristine();
         $scope.date = "";
@@ -40,16 +37,12 @@ angular.module('calorieTrackerApp.userPage', [])
         checkColor();
         $scope.apply;
       })
-      .error(function(data, status, headers, config) {
-        console.log('error');
-     });
   }
   $scope.deleteEntry = function(entry) {
     $http.post("/deleteEntry", entry)
       .success(function(data, status, headers, config) {
         $http.post('/calories', {token: sessionStorage.token})
           .success(function(data, status, headers, config) {
-              console.log('success');
               $scope.userEntries = data.entries;
               checkColor();
               $scope.apply;
@@ -58,13 +51,11 @@ angular.module('calorieTrackerApp.userPage', [])
   }
 
   $scope.updateEntry = function(entry, calories, comments, date, time) {
-    console.log(entry._id);
     $http.post("/updateEntry", {entry: entry, calories: calories, comments: comments, date: date, time: time })
       .success(function(data, status, headers, config) {
         $http.post('/calories', {token: sessionStorage.token})
           .success(function(data, status, headers, config) {
               $scope.userEntries = data.entries;
-              console.log(data.entries);
               delete inEdit[entry._id];
               $scope.apply;
               checkColor();

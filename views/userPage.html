@@ -1,12 +1,14 @@
 <!-- Page header -->
 <div class="header center">
-  <div class="user">{{user}}</div>
-  <div class="dailyCalories">Expected Number of Daily Calories:
+  <div class="user">User:&nbsp;{{user}}</div>
+
+  <div class="dailyCalories user">Expected Number of Daily Calories:
     <span id="dailyCalories">{{expectedCalories}}<span>
   </div>
 </div>
 <!-- Add a new entry -->
 <div class="addEntry center">
+  <h2> Add an Entry </h2>
   <form ng-submit="saveEntry(calories, comments, date, time)" name="addEntry">
     <label class="addDate">Date: </label>
     <label class="addtime">Time: </label>
@@ -26,6 +28,7 @@
 </div>
 <!-- Date and time filters -->
 <div class="filter center">
+  <h2> Filter Entries </h2>
   <form>
     <label class="date">Filter Date </label>
     <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate">
@@ -44,6 +47,7 @@
 </div>
 <!-- NG-REPEAT of CALORIES -->
 <div class="content center">
+  <h2> List of Entries </h2>
   <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
     <form id="editForm" class="editForm" ng-show="editing(entry)" ng-submit="updateEntry(entry, editCalories, editText, editDate, editTime)">
       <label>Date: </label> <br>
