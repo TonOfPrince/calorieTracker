@@ -34,9 +34,11 @@ angular.module('calorieTrackerApp.userPage', [])
       .success(function(data, status, headers, config) {
         console.log('success');
         console.log(data);
-        var key = Object.keys(data.entry).length
+        var key = Object.keys($scope.userEntries).length
+        console.log(key);
+        // console.log();
         $scope.userEntries[key] = data.entry;
-        $rootScope.apply;
+        $scope.apply;
       })
       .error(function(data, status, headers, config) {
         console.log('error');
