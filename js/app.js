@@ -13,14 +13,12 @@ var calorieTracker = angular.module('calorieTrackerApp',
     $http.post('/authenticate', {token: sessionStorage.token}).success(function(data, status){
       // Authenticated
       if (status == 201) {
-        /*$timeout(deferred.resolve, 0);*/
         console.log('we checked and you are logged in');
         deferred.resolve();
       }
       // Not Authenticated
       else {
         $rootScope.message = 'You need to log in.';
-        //$timeout(function(){deferred.reject();}, 0);
         deferred.reject();
         $location.url('/login');
       }
@@ -58,13 +56,6 @@ var calorieTracker = angular.module('calorieTrackerApp',
       url: '/login',
       templateUrl: 'views/login.html',
       controller: 'LoginCtrl'
-    })
-    .state('calorieList', {
-      url: '/calorieList',
-      templateUrl: 'views/calorieList.html',
-      resolve: {
-        loggedin: checkLoggedin
-      }
     })
     .state('userPage', {
       url: '/userPage',

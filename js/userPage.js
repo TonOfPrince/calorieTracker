@@ -4,13 +4,12 @@ angular.module('calorieTrackerApp.userPage', [])
   // extend factory to the controller
   angular.extend($scope, UserPage);
   // saves the user to the scope to be displayed
-  // $scope.user = $cookieStore.get('user');
   $q(function(resolve, reject) {
-    // $http.post('/calories', {id: $cookieStore.get('user')})
     $http.post('/calories', {token: sessionStorage.token})
       .success(function(data, status, headers, config) {
           console.log('success');
           $scope.userEntries = data.entries;
+          console.log(new Date(data.entries[0].date));
           $scope.user = data.user;
           resolve();
         })
@@ -21,7 +20,6 @@ angular.module('calorieTrackerApp.userPage', [])
   }).then(function() {
     $q(function(resolve,reject) {
       // grabs all the logged in user entries.
-      // $http.post('/expectedCalories', {id: $cookieStore.get('user')})
       $http.post('/expectedCalories', {token: sessionStorage.token})
         .success(function(data, status, headers, config) {
             console.log('success');
@@ -49,6 +47,20 @@ angular.module('calorieTrackerApp.userPage', [])
       });
     });
   });
+  $scope.dateFormat = function(date) {
+    var d2 = new Date(date);
+    var dateString = d2.toString();
+    // console.log(d2.getFullYear())
+    console.log(Date.parse(date))
+    // return Date.parse(date);
+    var d = new Date(date);
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth() + 1; //Months are zero based
+    var curr_year = d.getFullYear();
+    return(curr_month + "-" +  curr_date+ "-" + curr_year);
+    // return d2;
+
+  }
 })
 
 .factory('UserPage', function($http, $cookieStore, $q, $rootScope) {
@@ -59,7 +71,7 @@ angular.module('calorieTrackerApp.userPage', [])
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         console.log('success');
-        $rootScope.apply();
+        $rootScope.apply;
       })
       .error(function(data, status, headers, config) {
         console.log('error');
@@ -127,7 +139,7 @@ angular.module('calorieTrackerApp.userPage', [])
         if (jsEntryTime >= timeFrom.getTime() && jsEntryTime <= timeTo.getTime()) {
           filteredResults.push(entry);
         }
-      })
+      });
       return filteredResults;
     } else {
       return entries;

@@ -50,7 +50,7 @@
   <div class="content center">
     <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
       <label>Date: </label>
-      <div >{{entry.date}}</div> <br>
+      <div>{{dateFormat(entry.date)}}</div> <br>
       <label>Time: </label>
       <div >{{entry.time}}</div> <br>
       <label >Number of Calories: </label>
