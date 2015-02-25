@@ -86,3 +86,6 @@ body {
   cursor: pointer;
   font-size: 80%;
 }
+hr {
+  bottom:0%;
+}
