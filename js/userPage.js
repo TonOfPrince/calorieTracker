@@ -47,20 +47,7 @@ angular.module('calorieTrackerApp.userPage', [])
       });
     });
   });
-  $scope.dateFormat = function(date) {
-    var d = new Date(date);
-    var curr_date = d.getDate();
-    var curr_month = d.getMonth() + 1; //Months are zero based
-    var curr_year = d.getFullYear();
-    return (curr_month + "-" +  curr_date+ "-" + curr_year);
-  }
-  $scope.timeFormat = function(time) {
-    var t = (new Date(time)).getTime()/60000;
-    console.log(t);
-    var hours = Math.floor(t/60);
-    var minutes = t % 60;
-    return (hours+":"+minutes);
-  }
+
 })
 
 .factory('UserPage', function($http, $cookieStore, $q, $rootScope) {
@@ -104,10 +91,28 @@ angular.module('calorieTrackerApp.userPage', [])
     $http.post("/deleteEntry", entry);
   }
 
+  var dateFormat = function(date) {
+    var d = new Date(date);
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth() + 1; //Months are zero based
+    var curr_year = d.getFullYear();
+    return (curr_month + "-" +  curr_date+ "-" + curr_year);
+  }
+
+  var timeFormat = function(time) {
+    var t = (new Date(time)).getTime()/60000;
+    console.log(t);
+    var hours = Math.floor(t/60);
+    var minutes = t % 60;
+    return (hours+":"+minutes);
+  }
+
   return {
     saveEntry: saveEntry,
     sumCalories: sumCalories,
-    deleteEntry: deleteEntry
+    deleteEntry: deleteEntry,
+    dateFormat: dateFormat,
+    timeFormat: timeFormat
   }
 })
 // filter on a from and to date
