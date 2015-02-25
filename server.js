@@ -51,14 +51,11 @@ app.post('/authenticate', function(req, res) {
         if (user) {
           res.status(201);
           res.json({
-            type: true,
             data: user,
-            token: user.token
           });
         } else {
           res.status(401);
           res.json({
-            type: false,
             data: "Incorrect email/password"
           });
         }

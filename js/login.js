@@ -1,7 +1,6 @@
 angular.module('calorieTrackerApp.login', [])
 
 .controller('LoginCtrl', function($scope, $http, $state, $cookieStore) {
-  // angular.extend($scope, Login);
   $scope.isMatch = true;
   $scope.login = function(id, password) {
     $http.post('/login', {id: id, password: password})
@@ -9,6 +8,7 @@ angular.module('calorieTrackerApp.login', [])
       .success(function(data, status, headers, config) {
         $scope.isMatch = data['isMatch'];
         $cookieStore.put('user', id);
+        sessionStorage.token = data.token;
         $state.go('userPage');
         console.log(data);
       })
@@ -16,11 +16,4 @@ angular.module('calorieTrackerApp.login', [])
         console.log('error');
       })
   }
-})
-
-.factory('Login', function($http) {
-
-  // return {
-  //   login: login
-  // }
 })
