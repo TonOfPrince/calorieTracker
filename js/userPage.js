@@ -4,12 +4,14 @@ angular.module('calorieTrackerApp.userPage', [])
   // extend factory to the controller
   angular.extend($scope, UserPage);
   // saves the user to the scope to be displayed
-  $scope.user = $cookieStore.get('user');
+  // $scope.user = $cookieStore.get('user');
   $q(function(resolve, reject) {
-    $http.post('/calories', {id: $cookieStore.get('user')})
+    // $http.post('/calories', {id: $cookieStore.get('user')})
+    $http.post('/calories', {token: sessionStorage.token})
       .success(function(data, status, headers, config) {
           console.log('success');
           $scope.userEntries = data.entries;
+          $scope.user = data.user;
           resolve();
         })
         .error(function(data, status, headers, config) {
@@ -19,7 +21,8 @@ angular.module('calorieTrackerApp.userPage', [])
   }).then(function() {
     $q(function(resolve,reject) {
       // grabs all the logged in user entries.
-      $http.post('/expectedCalories', {id: $cookieStore.get('user')})
+      // $http.post('/expectedCalories', {id: $cookieStore.get('user')})
+      $http.post('/expectedCalories', {token: sessionStorage.token})
         .success(function(data, status, headers, config) {
             console.log('success');
             $scope.expectedCalories = data.expectedCalories;

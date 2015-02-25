@@ -156,7 +156,7 @@ app.post('/expectedCalories', function(req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    User.findOne({username: data['id']}, function(err, user) {
+    User.findOne({token: data.token}, function(err, user) {
       res.end(JSON.stringify({expectedCalories: user.expectedCalories}));
     });
   });
@@ -171,9 +171,11 @@ app.post('/calories', function(req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    Entry.find({user: data['id']}, function(err, entries) {
-      res.end(JSON.stringify({entries: entries}));
-    });
+    User.findOne({token: data.token}, function(err, user) {
+      Entry.find({user: user.username}, function(err, entries) {
+        res.end(JSON.stringify({entries: entries, user: user.username}));
+      });
+    })
   });
 });
 
