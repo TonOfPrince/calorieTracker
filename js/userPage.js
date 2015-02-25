@@ -64,9 +64,12 @@ angular.module('calorieTrackerApp.userPage', [])
       .success(function(data, status, headers, config) {
         $http.post('/calories', {token: sessionStorage.token})
           .success(function(data, status, headers, config) {
-              console.log('success');
               $scope.userEntries = data.entries;
+              console.log(data.entries);
+              delete inEdit[entry._id];
               $scope.apply;
+              checkColor();
+
           });
       });
   }
@@ -79,17 +82,31 @@ angular.module('calorieTrackerApp.userPage', [])
   $scope.defaultDate = function(date) {
     $('.editDate').val(entry.date.getFullYear() + '-' + entry.date.getMonth() + '-' + entry.date.getDate())
   }
+
+  var checkColor = function() {
+    $q(function(resolve, reject) {
+      // saves the sum of the users daily calories to scope
+      $scope.dailyCalories = $scope.sumCalories($scope.userEntries).$$state.value;
+      resolve();
+    }).then(function() {
+      if ($scope.dailyCalories < $scope.expectedCalories) {
+      $('#dailyCalories').removeClass('over');
+      $('#dailyCalories').addClass('under');
+      } else {
+      $('#dailyCalories').removeClass('under');
+      $('#dailyCalories').addClass('over');
+      }
+    });
+  }
   // saves the user to the scope to be displayed
   $q(function(resolve, reject) {
     $http.post('/calories', {token: sessionStorage.token})
       .success(function(data, status, headers, config) {
-          console.log('success');
           $scope.userEntries = data.entries;
           $scope.user = data.user;
           resolve();
         })
         .error(function(data, status, headers, config) {
-          console.log('error');
           reject();
         });
   }).then(function() {
@@ -97,12 +114,10 @@ angular.module('calorieTrackerApp.userPage', [])
       // grabs all the logged in user entries.
       $http.post('/expectedCalories', {token: sessionStorage.token})
         .success(function(data, status, headers, config) {
-            console.log('success');
             $scope.expectedCalories = data.expectedCalories;
             resolve();
           })
           .error(function(data, status, headers, config) {
-            console.log('error');
             reject();
           });
     }).then(function() {

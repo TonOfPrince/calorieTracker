@@ -108,12 +108,7 @@ app.post('/updateEntry', function (req, res) {
       entry.calories = data.calories;
       entry.save();
     });
-    // Entry.update({_id: data.entry._id}, {$set:{
-    //   date: data.date,
-    //   time: data.time,
-    //   text: data.comments,
-    //   calories: data.calories
-    // }}, {}, function(err, num){console.log(err, num)});
+    res.end();
   });
 });
 
