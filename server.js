@@ -135,8 +135,10 @@ app.post('/login', function (req, res) {
       user.comparePassword(data['password'], function(err, isMatch) {
         if (err) throw err;
         if (isMatch) {
-          // User.update({username: data['id']}, {token: jwt.sign(user, "MY_SECRET")})
-          res.end(JSON.stringify({isMatch: isMatch, token: jwt.sign(user, "MY_SECRET")}));
+          console.log('creating new token');
+          var newToken = jwt.sign(user, "MY_SECRET");
+          User.update({username: data['id']}, {$set:{token: newToken}}, {upsert: true}, function(){});
+          res.end(JSON.stringify({isMatch: isMatch, token: newToken}));
         } else {
           res.end(JSON.stringify({isMatch: isMatch}));
         }
