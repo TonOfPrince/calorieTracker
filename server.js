@@ -84,7 +84,8 @@ app.post('/saveEntry', function (req, res) {
       });
       newEntry.save(function(err, entrySave) {
         if (err) throw err;
-        res.end(JSON.stringify({user: entrySave.user, date: entrySave.date, text: entrySave.text, calories: entrySave.calories}));
+        res.end(JSON.stringify({entry: entrySave}));
+
       });
     });
   });

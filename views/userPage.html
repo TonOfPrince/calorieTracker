@@ -1,9 +1,11 @@
+<!-- Page header -->
 <div class="header center">
   <div class="user">{{user}}</div>
   <div class="dailyCalories">Expected Number of Daily Calories:
     <span id="dailyCalories">{{expectedCalories}}<span>
   </div>
 </div>
+<!-- Add a new entry -->
 <div class="addEntry center">
   <form ng-submit="saveEntry(calories, comments, date, time)">
     <label class="addDate">Date: </label>
@@ -22,7 +24,7 @@
     <input type="submit" value="Save Entry">
   </form>
 </div>
-<!-- NG-REPEAT of CALORIES -->
+<!-- Date and time filters -->
 <div class="filter center">
   <form>
     <label class="date">Filter Date </label>
@@ -40,17 +42,21 @@
     <label class="time">To: </label> <br>
   </form>
 </div>
-
+<!-- NG-REPEAT of CALORIES -->
 <div class="content center">
   <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
     <label>Date: </label>
-    <div>{{dateFormat(entry.date)}}</div> <br>
+    <div ng-hide="editing(entry)">{{dateFormat(entry.date)}}</div>
+    <br>
     <label>Time: </label>
-    <div >{{timeFormat(entry.time)}}</div> <br>
+    <div ng-hide="editing(entry)">{{timeFormat(entry.time)}}</div>
+    <br>
     <label >Number of Calories: </label>
-    <div >{{entry.calories}}</div> <br>
+    <div ng-hide="editing(entry)">{{entry.calories}}</div>
+    <br>
     <label >Text:</label>
-    <div >{{entry.text}}</div>
+    <div ng-hide="editing(entry)">{{entry.text}}</div>
+
     <input type="button" ng-click="editEntry(entry)" value="Edit Entry"></input type="button">
     <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
     <br><br>

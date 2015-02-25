@@ -3,13 +3,63 @@ angular.module('calorieTrackerApp.userPage', [])
 .controller('UserPageCtrl', function($scope, $http, UserPage, $q) {
   // extend factory to the controller
   angular.extend($scope, UserPage);
+  // var inEdit = {};
+  // $scope.editing = function(entry) {
+  //   console.log(entry);
+  //   if (entry && inEdit[entry._id]) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+  var fetchEntries = function(resolve, reject) {
+    $http.post('/calories', {token: sessionStorage.token})
+      .success(function(data, status, headers, config) {
+          console.log('success');
+          $scope.userEntries = data.entries;
+          console.log('data entries', data.entries)
+          // $scope.user = data.user;
+          // resolve();
+        })
+        .error(function(data, status, headers, config) {
+          console.log('error');
+          reject();
+        });
+  }
+
+  // saves an entry to the database
+  $scope.saveEntry = function(calories, comments, date, time) {
+    // makes a post request to the server to save the entry
+    $http.post('/saveEntry', {calories: calories, comments: comments, date: date,  time: time, token: sessionStorage.token})
+      // data is the response i get back from the server
+      .success(function(data, status, headers, config) {
+        console.log('success');
+        console.log(data);
+        var key = Object.keys(data.entry).length
+        $scope.userEntries[key] = data.entry;
+        $rootScope.apply;
+      })
+      .error(function(data, status, headers, config) {
+        console.log('error');
+     });
+    }
+  $scope.deleteEntry = function(entry) {
+    console.log(entry);
+    $http.post("/deleteEntry", entry)
+      .success(function(data, status, headers, config) {
+        $http.post('/calories', {token: sessionStorage.token})
+          .success(function(data, status, headers, config) {
+              console.log('success');
+              $scope.userEntries = data.entries;
+              $scope.apply;
+          });
+      });
+  }
   // saves the user to the scope to be displayed
   $q(function(resolve, reject) {
     $http.post('/calories', {token: sessionStorage.token})
       .success(function(data, status, headers, config) {
           console.log('success');
           $scope.userEntries = data.entries;
-          console.log(new Date(data.entries[0].date));
           $scope.user = data.user;
           resolve();
         })
@@ -52,22 +102,9 @@ angular.module('calorieTrackerApp.userPage', [])
 })
 
 .factory('UserPage', function($http, $q, $rootScope) {
-  // saves an entry to the database
-  var saveEntry = function(calories, comments, date, time) {
-    // makes a post request to the server to save the entry
-    $http.post('/saveEntry', {calories: calories, comments: comments, date: date,  time: time, token: sessionStorage.token})
-      // data is the response i get back from the server
-      .success(function(data, status, headers, config) {
-        console.log('success');
-        $rootScope.apply;
-      })
-      .error(function(data, status, headers, config) {
-        console.log('error');
-      })
-  }
+
   // adds up daily calories from a group of entries
   var sumCalories = function(entries) {
-    console.log(entries);
     var result = 0;
     // setting up variable for current date
     var currentDateTime = new Date();
@@ -87,9 +124,11 @@ angular.module('calorieTrackerApp.userPage', [])
     });
   }
 
-  var deleteEntry = function(entry) {
+
+
+  var editEntry = function(entry) {
     console.log(entry);
-    $http.post("/deleteEntry", entry);
+    // inEdit[entry._id] = true;
   }
 
   var dateFormat = function(date) {
@@ -102,7 +141,6 @@ angular.module('calorieTrackerApp.userPage', [])
 
   var timeFormat = function(time) {
     var t = (new Date(time)).getTime()/60000;
-    console.log(t);
     var hours = Math.floor(t/60) - 5;
     var minutes = t % 60;
     if (minutes.toString().length === 1) {
@@ -112,11 +150,12 @@ angular.module('calorieTrackerApp.userPage', [])
   }
 
   return {
-    saveEntry: saveEntry,
+    // saveEntry: saveEntry,
     sumCalories: sumCalories,
-    deleteEntry: deleteEntry,
+    // deleteEntry: deleteEntry,
     dateFormat: dateFormat,
-    timeFormat: timeFormat
+    timeFormat: timeFormat,
+    editEntry: editEntry
   }
 })
 // filter on a from and to date
