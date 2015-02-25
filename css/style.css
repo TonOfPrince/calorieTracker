@@ -4,12 +4,18 @@ input {
 body {
   background: grey;
   color: white;
+
+}
+.container {
+  height: 100%;
+  width: 100%;
 }
 .center {
-  margin-top: 12%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 12%;
+  margin-left: 25%;
+  margin-right: 25%;
+  position: fixed;
+  width: 50%;
+  overflow: scroll;
 }
 
 .error {
@@ -23,15 +29,11 @@ body {
 .userPage {
   height: 100%;
   width: 100%;
- /* margin-left: auto;
-  margin-right: auto;*/
-/*  padding-left: 20%;
-  padding-right: 20%;*/
 }
   .header {
-    height: 10%;
+    top: 2%;
+    height: 5%;
     width: 50%;
-    position: absolute;
   }
     .user {
       float: left;
@@ -39,9 +41,26 @@ body {
     .dailyCalories {
       float: right;
     }
+  .addEntry {
+    top: 7%;
+    height: 15%;
+    width: 50%;
+  }
+    .datetime {
+      float: left;
+    }
+    .calories {
+      left: 37.5%;
+      width: 20%;
+      position: absolute;
+    }
+    .comments {
+      left: 65%;
+      width: 35%;
+      position: absolute;
+    }
   .filter {
-    top: 25%;
-    position: absolute;
+    top: 23%;
     height: 10%;
     width: 50%;
   }
@@ -50,32 +69,11 @@ body {
     }
     .time {
       float: right;
-      /*right:0;*/
     }
-  .addEntry {
-    top: 10%;
-    height: 10%;
-    width: 50%;
-    position: absolute;
-  }
-    .datetime {
-      float: left;
-    }
-    .calories {
-      left: 50%;
-      width: 100%;
-      position: absolute;
-    }
-    .comments {
-      left: 75%;
-      position: absolute;
-    }
+
   .content {
-    top: 40%;
-    bottom: 0;
-    width: 50%;
-    position: absolute;
-    overflow: auto;
+    top: 35%;
+    bottom: 5%;
   }
 
 .under {
@@ -83,11 +81,6 @@ body {
 }
 .over {
   color: green;
-}
-.center {
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
 }
 .createAcct {
   cursor: pointer;
