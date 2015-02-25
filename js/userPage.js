@@ -51,7 +51,7 @@ angular.module('calorieTrackerApp.userPage', [])
   });
 })
 
-.factory('UserPage', function($http, $cookieStore, $q) {
+.factory('UserPage', function($http, $cookieStore, $q, $rootScope) {
   // saves an entry to the database
   var saveEntry = function(calories, comments, date, time) {
     // makes a post request to the server to save the entry
@@ -59,6 +59,7 @@ angular.module('calorieTrackerApp.userPage', [])
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         console.log('success');
+        $rootScope.apply();
       })
       .error(function(data, status, headers, config) {
         console.log('error');

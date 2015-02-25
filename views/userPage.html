@@ -12,7 +12,7 @@
       <label class="addDate">Date: </label>
       <label class="addtime">Time: </label>
       <label class="calories">Number of Calories: </label>
-      <label class="comments">Comments:</label>
+      <label class="comments">Text:</label>
       <br>
       <input type="date" placeholder="date" ng-model="date" class="addDate">
       <input type="time" placeholder="time" ng-model="time" class="addTime">
@@ -55,7 +55,7 @@
       <div >{{entry.time}}</div> <br>
       <label >Number of Calories: </label>
       <div >{{entry.calories}}</div> <br>
-      <label >Comments:</label>
+      <label >Text:</label>
       <div >{{entry.text}}</div>
       <input type="button" ng-click="editEntry(entry)" value="Edit Entry"></input type="button">
       <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
