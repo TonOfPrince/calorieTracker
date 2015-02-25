@@ -55,7 +55,7 @@ angular.module('calorieTrackerApp.userPage', [])
   // saves an entry to the database
   var saveEntry = function(calories, comments, date, time) {
     // makes a post request to the server to save the entry
-    $http.post('/saveEntry', {calories: calories, comments: comments, date: date,  time: time, user: $cookieStore.get('user')})
+    $http.post('/saveEntry', {calories: calories, comments: comments, date: date,  time: time, token: sessionStorage.token})
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         console.log('success');

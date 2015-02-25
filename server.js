@@ -74,16 +74,18 @@ app.post('/saveEntry', function (req, res) {
   req.on('end', function() {
     data = JSON.parse(data);
     console.log(data);
-    var newEntry = new Entry({
-      user: data['user'],
-      date: data['date'],
-      time: data['time'],
-      text: data['comments'],
-      calories: data['calories']
-    });
-    newEntry.save(function(err, entrySave) {
-      if (err) throw err;
-      res.end(JSON.stringify({user: entrySave.user, date: entrySave.date, text: entrySave.text, calories: entrySave.calories}));
+    User.findOne({token: data.token}, function(err, user) {
+      var newEntry = new Entry({
+        user: user.username,
+        date: data.date,
+        time: data.time,
+        text: data.comments,
+        calories: data.calories
+      });
+      newEntry.save(function(err, entrySave) {
+        if (err) throw err;
+        res.end(JSON.stringify({user: entrySave.user, date: entrySave.date, text: entrySave.text, calories: entrySave.calories}));
+      });
     });
   });
 });
@@ -99,14 +101,14 @@ app.post('/createUser', function (req, res) {
     data = JSON.parse(data);
     console.log(data['id']);
     console.log('data ', data);
-    User.findOne({ username: data['id']}, function(err, userFind) {
+    User.findOne({ username: data.id}, function(err, userFind) {
       if (err) throw err;
       if (userFind === null) {
         var newUser = new User({
-          username: data['id'],
-          password: data['password'],
-          expectedCalories: data['calories'],
-          token: jwt.sign(data['id'], "MY_SECRET")
+          username: data.id,
+          password: data.password,
+          expectedCalories: data.calories,
+          token: jwt.sign(data.id, "MY_SECRET")
         });
         newUser.save(function(err, userSave) {
           if (err) throw err;
@@ -130,7 +132,6 @@ app.post('/login', function (req, res) {
     data = JSON.parse(data);
     User.findOne({ username: data.id}, function(err, user) {
       if (err) throw err;
-      console.log(user);
       // test a matching password
       if (user) {
         user.comparePassword(data['password'], function(err, isMatch) {
