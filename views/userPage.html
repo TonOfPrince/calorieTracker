@@ -58,7 +58,9 @@
       <input type="number" placeholder="Number of Calories" min=0 ng-model="editCalories" required> <br>
       <br>
       <label >Text:</label><br>
-      <textarea id="comment" placeholder="Text" ng-model="editText" required> </textarea>
+      <textarea id="comment" placeholder="Text" ng-model="editText" required> </textarea><br>
+      <input type="submit" value="Save Entry" ng-show="editing(entry)"></input type="button">
+
     </form>
     <div>
       <label>Date: </label>
@@ -75,10 +77,9 @@
     </div>
 
     <input type="button" ng-click="editEntry(entry)" value="Edit Entry" ng-hide="editing(entry)"></input type="button">
-    <input type="submit" form="editForm"  value="Save Entry" ng-show="editing(entry)"></input type="button">
-    <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
     <input type="button" ng-click="closeEdit(entry)" value="Close Edit" ng-show="editing(entry)"></input type="button">
+    <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
 
-    <br><br>
+    <br><br><br><br>
   </div>
 </div>

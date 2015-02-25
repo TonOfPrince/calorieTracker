@@ -37,6 +37,7 @@ angular.module('calorieTrackerApp.userPage', [])
         $scope.comments ="";
         var key = Object.keys($scope.userEntries).length
         $scope.userEntries[key] = data.entry;
+        checkColor();
         $scope.apply;
       })
       .error(function(data, status, headers, config) {
