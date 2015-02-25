@@ -100,9 +100,11 @@ angular.module('calorieTrackerApp.userPage', [])
   }
 
   var timeFormat = function(time) {
+    // console.log(time);
+    // return time;
     var t = (new Date(time)).getTime()/60000;
     console.log(t);
-    var hours = Math.floor(t/60);
+    var hours = Math.floor(t/60) - 5;
     var minutes = t % 60;
     if (minutes.toString().length === 1) {
       minutes = "0"+minutes;
