@@ -121,17 +121,7 @@ angular.module('calorieTrackerApp.userPage', [])
             reject();
           });
     }).then(function() {
-      $q(function(resolve, reject) {
-        // saves the sum of the users daily calories to scope
-        $scope.dailyCalories = $scope.sumCalories($scope.userEntries).$$state.value;
-        resolve();
-      }).then(function() {
-        if ($scope.dailyCalories < $scope.expectedCalories) {
-          $('#dailyCalories').addClass('under');
-        } else {
-          $('#dailyCalories').addClass('over');
-        }
-      });
+      checkColor();
     });
   });
 

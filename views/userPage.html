@@ -13,11 +13,11 @@
     <label class="calories">Number of Calories: </label>
     <label class="comments">Text:</label>
     <br>
-    <input type="date" placeholder="date" ng-model="date" class="addDate">
-    <input type="time" placeholder="time" ng-model="time" class="addTime">
+    <input type="date" placeholder="date" ng-model="date" class="addDate" required>
+    <input type="time" placeholder="time" ng-model="time" class="addTime" required>
 
-    <input type="number" placeholder="Number of Calories" min=0 ng-model="calories" class="calories">
-    <textarea id="comment" placeholder="Text" ng-model="comments" class="comments"> </textarea>
+    <input type="number" placeholder="Number of Calories" min=0 ng-model="calories" class="calories" required>
+    <textarea id="comment" placeholder="Text" ng-model="comments" class="comments" required> </textarea>
 
     <br ng-show="incorrectPass"><br ng-show="incorrectPass">
     <br><br>
@@ -45,22 +45,20 @@
 <!-- NG-REPEAT of CALORIES -->
 <div class="content center">
   <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
-    <form class="editForm" ng-show="editing(entry)">
+    <form id="editForm" class="editForm" ng-show="editing(entry)" ng-click="updateEntry(entry, editCalories, editText, editDate, editTime)">
       <label>Date: </label> <br>
-      <input type="date" placeholder="date" ng-model="editDate">
+      <input type="date" placeholder="date" ng-model="editDate" required>
       <br>
       <br>
       <label>Time: </label> <br>
-      <input type="time" placeholder="time" ng-model="editTime">
+      <input type="time" placeholder="time" ng-model="editTime" required>
       <br>
       <br>
       <label>Number of Calories: </label> <br>
-      <input type="number" placeholder="Number of Calories" min=0 ng-model="editCalories"> <br>
+      <input type="number" placeholder="Number of Calories" min=0 ng-model="editCalories" required> <br>
       <br>
       <label >Text:</label><br>
-      <textarea id="comment" placeholder="Text" ng-model="editText"> </textarea>
-
-
+      <textarea id="comment" placeholder="Text" ng-model="editText" required> </textarea>
     </form>
     <div>
       <label>Date: </label>
@@ -77,7 +75,7 @@
     </div>
 
     <input type="button" ng-click="editEntry(entry)" value="Edit Entry" ng-hide="editing(entry)"></input type="button">
-    <input type="button" ng-click="updateEntry(entry, editCalories, editText, editDate, editTime)" value="Save Entry" ng-show="editing(entry)"></input type="button">
+    <input type="submit" form="editForm"  value="Save Entry" ng-show="editing(entry)"></input type="button">
     <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
     <br><br>
   </div>
