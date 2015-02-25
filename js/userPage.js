@@ -23,6 +23,7 @@ angular.module('calorieTrackerApp.userPage', [])
       $http.post('/expectedCalories', {token: sessionStorage.token})
         .success(function(data, status, headers, config) {
             console.log('success');
+            console.log(data);
             $scope.expectedCalories = data.expectedCalories;
             console.log($scope.expectedCalories);
             resolve();
@@ -100,8 +101,6 @@ angular.module('calorieTrackerApp.userPage', [])
   }
 
   var timeFormat = function(time) {
-    // console.log(time);
-    // return time;
     var t = (new Date(time)).getTime()/60000;
     console.log(t);
     var hours = Math.floor(t/60) - 5;

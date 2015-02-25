@@ -160,6 +160,7 @@ app.post('/expectedCalories', function(req, res) {
   req.on('end', function() {
     data = JSON.parse(data);
     User.findOne({token: data.token}, function(err, user) {
+      console.log(user);
       res.end(JSON.stringify({expectedCalories: user.expectedCalories}));
     });
   });

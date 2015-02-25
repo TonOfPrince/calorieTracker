@@ -6,6 +6,12 @@ body {
   color: white;
 
 }
+.easyCenter {
+  margin-top: 12%;
+  margin-right: auto;
+  margin-left: auto;
+  display: table;
+}
 .container {
   height: 100%;
   width: 100%;
@@ -56,7 +62,7 @@ body {
     }
     .comments {
       left: 65%;
-      width: 35%;
+      width: 34%;
       position: absolute;
     }
   .filter {
