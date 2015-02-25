@@ -51,6 +51,7 @@ angular.module('calorieTrackerApp.userPage', [])
           .success(function(data, status, headers, config) {
               console.log('success');
               $scope.userEntries = data.entries;
+              checkColor();
               $scope.apply;
           });
       });
