@@ -128,21 +128,23 @@ app.post('/login', function (req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    User.findOne({ username: data['id']}, function(err, user) {
+    User.findOne({ username: data.id}, function(err, user) {
       if (err) throw err;
       console.log(user);
       // test a matching password
-      user.comparePassword(data['password'], function(err, isMatch) {
-        if (err) throw err;
-        if (isMatch) {
-          console.log('creating new token');
-          var newToken = jwt.sign(user, "MY_SECRET");
-          User.update({username: data['id']}, {$set:{token: newToken}}, {upsert: true}, function(){});
-          res.end(JSON.stringify({isMatch: isMatch, token: newToken}));
-        } else {
-          res.end(JSON.stringify({isMatch: isMatch}));
-        }
-      });
+      if (user) {
+        user.comparePassword(data['password'], function(err, isMatch) {
+          if (err) throw err;
+          if (isMatch) {
+            console.log('creating new token');
+            var newToken = jwt.sign(user, "MY_SECRET");
+            User.update({username: data['id']}, {$set:{token: newToken}}, {upsert: true}, function(){});
+            res.end(JSON.stringify({isMatch: isMatch, token: newToken}));
+          } else {
+            res.end(JSON.stringify({isMatch: isMatch}));
+          }
+        });
+      }
     });
   });
 });

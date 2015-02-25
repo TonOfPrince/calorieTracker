@@ -9,12 +9,10 @@ var calorieTracker = angular.module('calorieTrackerApp',
   var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
     // Initialize a new promise
     var deferred = $q.defer();
-    console.log(sessionStorage.token)
     // Make an AJAX call to check if the user is logged in
-    $http.post('/authenticate', {token: sessionStorage.token}).success(function(user){
-      console.log(user);
+    $http.post('/authenticate', {token: sessionStorage.token}).success(function(data, status){
       // Authenticated
-      if (user !== '0') {
+      if (status == 201) {
         /*$timeout(deferred.resolve, 0);*/
         console.log('we checked and you are logged in');
         deferred.resolve();
