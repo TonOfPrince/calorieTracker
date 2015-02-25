@@ -96,3 +96,6 @@ body {
 hr {
   bottom:0%;
 }
+.editForm {
+  float: right;
+}

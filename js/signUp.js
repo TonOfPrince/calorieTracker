@@ -6,7 +6,6 @@ angular.module('calorieTrackerApp.signUp', [])
       // data is the response i get back from the server
       .success(function(data, status, headers, config) {
         // check if the user is already in the database
-        console.log(data);
         if (data.newUser === false) {
           $scope.userExists = true;
           console.log('user already exists!');

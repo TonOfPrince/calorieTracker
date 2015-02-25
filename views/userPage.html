@@ -45,19 +45,39 @@
 <!-- NG-REPEAT of CALORIES -->
 <div class="content center">
   <div ng-repeat="entry in userEntries |  dateFilter:dateFrom:dateTo:checkDate | timeFilter:timeFrom:timeTo:checkTime">
-    <label>Date: </label>
-    <div ng-hide="editing(entry)">{{dateFormat(entry.date)}}</div>
-    <br>
-    <label>Time: </label>
-    <div ng-hide="editing(entry)">{{timeFormat(entry.time)}}</div>
-    <br>
-    <label >Number of Calories: </label>
-    <div ng-hide="editing(entry)">{{entry.calories}}</div>
-    <br>
-    <label >Text:</label>
-    <div ng-hide="editing(entry)">{{entry.text}}</div>
+    <form class="editForm" ng-show="editing(entry)">
+      <label>Date: </label> <br>
+      <input type="date" placeholder="date" ng-model="editDate">
+      <br>
+      <br>
+      <label>Time: </label> <br>
+      <input type="time" placeholder="time" ng-model="editTme">
+      <br>
+      <br>
+      <label>Number of Calories: </label> <br>
+      <input type="number" placeholder="Number of Calories" min=0 ng-model="editCalories"> <br>
+      <br>
+      <label >Text:</label><br>
+      <textarea id="comment" placeholder="Text" ng-model="editText"> </textarea>
 
-    <input type="button" ng-click="editEntry(entry)" value="Edit Entry"></input type="button">
+
+    </form>
+    <div>
+      <label>Date: </label>
+      <div>{{dateFormat(entry.date)}}</div>
+      <br>
+      <label>Time: </label>
+      <div>{{timeFormat(entry.time)}}</div>
+      <br>
+      <label >Number of Calories: </label>
+      <div>{{entry.calories}}</div>
+      <br>
+      <label >Text:</label>
+      <div>{{entry.text}}</div>
+    </div>
+
+    <input type="button" ng-click="editEntry(entry)" value="Edit Entry" ng-hide="editing(entry)"></input type="button">
+    <input type="button" ng-click="updateEntry(entry, editCalories, editText, editDate, editTime)" value="Save Entry" ng-show="editing(entry)"></input type="button">
     <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
     <br><br>
   </div>

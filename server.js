@@ -91,6 +91,47 @@ app.post('/saveEntry', function (req, res) {
   });
 });
 
+app.post('/updateEntry', function (req, res) {
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  res.status(201);
+  var data = "";
+  req.on('data', function(chunk) {
+    data += chunk;
+  });
+  req.on('end', function() {
+    data = JSON.parse(data);
+    console.log(data.entry._id);
+    Entry.findOne({_id: data.entry._id}, function(err, entry) {
+      entry.date = data.date;
+      entry.time = data.time;
+      entry.text = data.comments;
+      entry.calories = data.calories;
+      entry.save();
+    });
+    // Entry.update({_id: data.entry._id}, {$set:{
+    //   date: data.date,
+    //   time: data.time,
+    //   text: data.comments,
+    //   calories: data.calories
+    // }}, {}, function(err, num){console.log(err, num)});
+  });
+});
+
+app.post('/deleteEntry', function(req, res) {
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  res.status(201);
+  var data = "";
+  req.on('data', function(chunk) {
+    data += chunk;
+  });
+  req.on('end', function() {
+    data = JSON.parse(data);
+    console.log(data._id);
+    Entry.find({_id: data._id}).remove().exec();
+  });
+  res.end();
+});
+
 app.post('/createUser', function (req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -140,7 +181,7 @@ app.post('/login', function (req, res) {
           if (isMatch) {
             console.log('creating new token');
             var newToken = jwt.sign(user, "MY_SECRET");
-            User.update({username: data['id']}, {$set:{token: newToken}}, {upsert: true}, function(){});
+            User.update({username: data.id}, {$set:{token: newToken}}, {upsert: true}, function(){});
             res.end(JSON.stringify({isMatch: isMatch, token: newToken}));
           } else {
             res.end(JSON.stringify({isMatch: isMatch}));
@@ -184,20 +225,7 @@ app.post('/calories', function(req, res) {
   });
 });
 
-app.post('/deleteEntry', function(req, res) {
-  console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);
-  var data = "";
-  req.on('data', function(chunk) {
-    data += chunk;
-  });
-  req.on('end', function() {
-    data = JSON.parse(data);
-    console.log(data._id);
-    Entry.find({_id: data._id}).remove().exec();
-  });
-  res.end();
-});
+
 
 //log where we are listening
 console.log("Listening on http://" + ip + ":" + port);
