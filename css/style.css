@@ -58,8 +58,12 @@ div.user {
     height: 20%;
     width: 50%;
   }
-    .datetime {
+    .addDate {
       float: left;
+    }
+    .addtime {
+      left: 18%;
+      position: absolute;
     }
     .calories {
       left: 37.5%;
