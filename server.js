@@ -7,7 +7,6 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
 var cookieParser = require('cookie-parser');
-var Q = require('q');
 var app = express();
 
 //port
