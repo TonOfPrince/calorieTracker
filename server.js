@@ -71,7 +71,6 @@ app.post('/saveEntry', function (req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    console.log(data);
     User.findOne({token: data.token}, function(err, user) {
       var newEntry = new Entry({
         user: user.username,
@@ -157,8 +156,8 @@ app.post('/createUser', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-  console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);
+  // console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  res.status(302);
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
@@ -169,17 +168,20 @@ app.post('/login', function (req, res) {
       if (err) throw err;
       // test a matching password
       if (user) {
-        user.comparePassword(data['password'], function(err, isMatch) {
+        user.comparePassword(data.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
-            console.log('creating new token');
+            // console.log('creating new token');
             var newToken = jwt.sign(user, "MY_SECRET");
             User.update({username: data.id}, {$set:{token: newToken}}, {upsert: true}, function(){});
+            res.status(201);
             res.end(JSON.stringify({isMatch: isMatch, token: newToken}));
           } else {
             res.end(JSON.stringify({isMatch: isMatch}));
           }
         });
+      } else {
+        res.end(JSON.stringify({isMatch: false}));
       }
     });
   });

@@ -2,7 +2,7 @@
 <div class="header center">
   <div class="user">User:&nbsp;{{user}}</div>
 
-  <div class="dailyCalories user">Expected # Daily Calories:
+  <div class="dailyCalories user">Expected Daily Calories:
     <span id="dailyCalories">{{expectedCalories}}<span>
   </div>
 </div>
@@ -30,19 +30,6 @@
 <div class="filter center">
   <h2> Filter Entries </h2>
   <form>
-    <!-- <label class="date">Filter Date </label>
-    <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate">
-    <input class="time" type="checkbox" name="checkTime" value="timeCheck" ng-model="checkTime">
-    <label class="time">Filter Time</label>
-    <br>
-    <label class="date">From:&nbsp;</label>
-    <input  class="date" type="date" placeholder="datetime" ng-model="dateFrom" >
-    <input class="time" type="time" placeholder="datetime" ng-model="timeFrom" >
-    <label class="time">From:&nbsp;</label> <br>
-    <input class="time" type="time" placeholder="datetime" ng-model="timeTo">
-    <label class="date">To:&nbsp;</label>
-    <input  class="date" type="date" placeholder="datetime" ng-model="dateTo" >
-    <label class="time">To:&nbsp;</label> <br> -->
     <div class="date">
       <label >Filter Date </label>
       <input type="checkbox" name="checkDate" value="dateCheck" ng-model="checkDate"> <br>
@@ -100,8 +87,6 @@
       <input type="button" ng-click="closeEdit(entry)" value="Close Edit" ng-show="editing(entry)"></input type="button">
       <input type="button" ng-click="deleteEntry(entry)" value="Delete Entry"></input type="button">
     </div>
-
-
-    <br><br><br><br>
+    <br><br><br>
   </div>
 </div>
