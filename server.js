@@ -58,7 +58,7 @@ app.post('/authenticate', function(req, res) {
         } else {
           res.status(401);
           res.json({
-            data: "Incorrect email/password"
+            data: "Incorrect token"
           });
         }
       }
@@ -79,7 +79,6 @@ app.post('/saveEntry', function (req, res) {
     // find a user with that token
     User.findOne({token: data.token}, function(err, user) {
       if (user) {
-        console.log(user)
         res.status(201);
         // make a new entry
         var newEntry = new Entry({
@@ -96,7 +95,6 @@ app.post('/saveEntry', function (req, res) {
 
         });
       } else {
-        console.log('nope')
         res.status(401);
         res.json({
           data: "Incorrect token"
@@ -139,7 +137,6 @@ app.post('/deleteEntry', function(req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    console.log(data._id);
     // delete the entry
     Entry.find({_id: data._id}).remove().exec();
   });
@@ -181,7 +178,7 @@ app.post('/createUser', function (req, res) {
 
 // logs a user in given a username and password
 app.post('/login', function (req, res) {
-  // console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(401);
   var data = "";
   req.on('data', function(chunk) {
@@ -196,7 +193,6 @@ app.post('/login', function (req, res) {
         user.comparePassword(data.password, function(err, isMatch) {
           if (err) throw err;
           if (isMatch) {
-            // console.log('creating new token');
             var newToken = jwt.sign(user, "MY_SECRET");
             User.update({username: data.id}, {$set:{token: newToken}}, {upsert: true}, function(){});
             res.status(201);

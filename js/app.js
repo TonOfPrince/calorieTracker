@@ -5,6 +5,7 @@ var calorieTracker = angular.module('calorieTrackerApp',
    'calorieTrackerApp.login'
   ])
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+  // checks of a user is logged in
   var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
     // Initialize a new promise
     var deferred = $q.defer();
@@ -17,12 +18,10 @@ var calorieTracker = angular.module('calorieTrackerApp',
       }
       // Not Authenticated
       else {
-        $rootScope.message = 'You need to log in.';
         deferred.reject();
         $location.url('/login');
       }
     });
-
     return deferred.promise;
   };
 

@@ -4,15 +4,18 @@ angular.module('calorieTrackerApp.userPage', [])
   // extend factory to the controller
   angular.extend($scope, UserPage);
   var inEdit = {};
+  // checks if an entry is being edited
   $scope.editing = function(entry) {
     if (entry && inEdit[entry._id]) {
       return true;
     }
     return false;
   }
+  // grabs all the entries for a user
   var fetchEntries = function(resolve, reject) {
     $http.post('/calories', {token: sessionStorage.token})
       .success(function(data, status, headers, config) {
+          // saves all entries to scope
           $scope.userEntries = data.entries;
         })
         .error(function(data, status, headers, config) {
@@ -38,6 +41,8 @@ angular.module('calorieTrackerApp.userPage', [])
         $scope.apply;
       })
   }
+
+  // deletes an entry from mongo
   $scope.deleteEntry = function(entry) {
     $http.post("/deleteEntry", entry)
       .success(function(data, status, headers, config) {
@@ -50,9 +55,11 @@ angular.module('calorieTrackerApp.userPage', [])
       });
   }
 
+  // updates an entry in mongo
   $scope.updateEntry = function(entry, calories, comments, date, time) {
     $http.post("/updateEntry", {entry: entry, calories: calories, comments: comments, date: date, time: time })
       .success(function(data, status, headers, config) {
+        // updates list of entries on page
         $http.post('/calories', {token: sessionStorage.token})
           .success(function(data, status, headers, config) {
               $scope.userEntries = data.entries;
@@ -64,18 +71,17 @@ angular.module('calorieTrackerApp.userPage', [])
       });
   }
 
-  $scope.closeEdit = function(entry) {
-    delete inEdit[entry._id];
-  }
-
+  // sets up editing an entry
   $scope.editEntry = function(entry) {
     inEdit[entry._id] = true;
   }
 
-  $scope.defaultDate = function(date) {
-    $('.editDate').val(entry.date.getFullYear() + '-' + entry.date.getMonth() + '-' + entry.date.getDate())
+  // closes editing an entry
+  $scope.closeEdit = function(entry) {
+    delete inEdit[entry._id];
   }
 
+  // updates the color of expected calories
   var checkColor = function() {
     $q(function(resolve, reject) {
       // saves the sum of the users daily calories to scope
@@ -114,6 +120,7 @@ angular.module('calorieTrackerApp.userPage', [])
             reject();
           });
     }).then(function() {
+      // checks the expcted calories color
       checkColor();
     });
   });
@@ -143,6 +150,7 @@ angular.module('calorieTrackerApp.userPage', [])
     });
   }
 
+  // formats the date
   var dateFormat = function(date) {
     var d = new Date(date);
     var curr_date = d.getDate();
@@ -151,6 +159,7 @@ angular.module('calorieTrackerApp.userPage', [])
     return (curr_month + "-" +  curr_date+ "-" + curr_year);
   }
 
+  // formats the time
   var timeFormat = function(time) {
     var t = (new Date(time)).getTime()/60000;
     var hours = Math.floor(t/60) - 5;
@@ -162,12 +171,9 @@ angular.module('calorieTrackerApp.userPage', [])
   }
 
   return {
-    // saveEntry: saveEntry,
     sumCalories: sumCalories,
-    // deleteEntry: deleteEntry,
     dateFormat: dateFormat,
     timeFormat: timeFormat,
-    // editEntry: editEntry
   }
 })
 // filter on a from and to date

@@ -12,12 +12,12 @@ angular.module('calorieTrackerApp.signUp', [])
         } else {
           $scope.userExists = false;
           console.log('new user!');
+          // creates token for new user
           sessionStorage.token = data.token;
+          // takes user to user page
           $state.go('userPage');
         }
-      })
-      .error(function(data, status, headers, config) {
-        console.log('error');
-      })
+      });
+
   }
 });
