@@ -36,60 +36,37 @@ describe('POST /authenticate', function(){
     .send({token:'notthetoken'})
     .expect(401, done)
   })
-
-  before(function(done) {
-    api
-      .post('/login')
-      .send({id:'test',password:'test'})
-      .end(function(err, res) {
-        token = JSON.parse(res.text).token;
-        done();
-      });
-  });
-
-  it('should succeed with proper token', function(done){
-    api
-    .post('/authenticate')
-    .send({token: token})
-    .expect(200, done)
-  })
 });
 
 describe('POST /saveEntry', function(){
 
   var token = null;
 
-  before(function(done) {
-    api
-      .post('/login')
-      .send({id:'test',password:'test'})
-      .end(function(err, res) {
-        token = JSON.parse(res.text).token;
-        done();
-      });
-  });
-
   it('should fail without proper token', function(done){
     api
     .post('/saveEntry')
-    .send({token:'notthetoken', date: new Date(), time: new Date(), comments: "blah", calories: 200 })
+    .send({token:'notthetoken'})
     .expect(401, done)
   })
+});
 
-  before(function(done) {
-    api
-      .post('/login')
-      .send({id:'test',password:'test'})
-      .end(function(err, res) {
-        token = JSON.parse(res.text).token;
-        done();
-      });
-  });
 
-  it('should succeed with proper token', function(done){
+describe('POST /expectedCalories', function(){
+
+  it('should fail without proper token', function(done){
     api
-    .post('/saveEntry')
-    .send({token:token, date: new Date(), time: new Date(), text: "blah", calories: 200 })
-    .expect(200, done)
+    .post('/expectedCalories')
+    .send({token:'notthetoken'})
+    .expect(401, done)
   })
 });
+
+describe('POST /calories', function(){
+  it('should fail without proper token', function(done){
+    api
+    .post('/calories')
+    .send({token:'notthetoken'})
+    .expect(401, done)
+  })
+});
+

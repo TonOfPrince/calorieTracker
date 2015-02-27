@@ -51,7 +51,7 @@ app.post('/authenticate', function(req, res) {
         });
       } else {
         if (user) {
-          res.status(200);
+          res.status(201);
           res.json({
             data: user,
           });
@@ -107,7 +107,7 @@ app.post('/saveEntry', function (req, res) {
 // updates a calorie entry in mongo
 app.post('/updateEntry', function (req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);
+  res.status(401);
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
@@ -116,14 +116,19 @@ app.post('/updateEntry', function (req, res) {
     data = JSON.parse(data);
     // find the entry
     Entry.findOne({_id: data.entry._id}, function(err, entry) {
-      entry.date = data.date;
-      entry.time = data.time;
-      entry.text = data.comments;
-      entry.calories = data.calories;
-      // save the updated data
-      entry.save();
+      if (entry) {
+        res.status(201);
+        entry.date = data.date;
+        entry.time = data.time;
+        entry.text = data.comments;
+        entry.calories = data.calories;
+        // save the updated data
+        entry.save();
+        res.end();
+      } else {
+        res.end();
+      }
     });
-    res.end();
   });
 });
 
@@ -211,7 +216,7 @@ app.post('/login', function (req, res) {
 // grabs the user's expected number of daily calories
 app.post('/expectedCalories', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);
+  res.status(401);
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
@@ -221,7 +226,12 @@ app.post('/expectedCalories', function(req, res) {
     // find the user based off a token
     User.findOne({token: data.token}, function(err, user) {
       // send back the expected calories for that user
-      res.end(JSON.stringify({expectedCalories: user.expectedCalories}));
+      if (user) {
+        res.status(201);
+        res.end(JSON.stringify({expectedCalories: user.expectedCalories}));
+      } else {
+        res.end();
+      }
     });
   });
 });
@@ -229,7 +239,7 @@ app.post('/expectedCalories', function(req, res) {
 // grabs all of a user's entries
 app.post('/calories', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);
+  res.status(401);
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
@@ -238,11 +248,16 @@ app.post('/calories', function(req, res) {
     data = JSON.parse(data);
     // finds a user based off of a token
     User.findOne({token: data.token}, function(err, user) {
-      // finds all entries from that user
-      Entry.find({user: user.username}, function(err, entries) {
-        res.end(JSON.stringify({entries: entries, user: user.username}));
-      });
-    })
+      if (user) {
+        res.status(201);
+        // finds all entries from that user
+        Entry.find({user: user.username}, function(err, entries) {
+          res.end(JSON.stringify({entries: entries, user: user.username}));
+        });
+      } else {
+        res.end();
+      }
+    });
   });
 });
 

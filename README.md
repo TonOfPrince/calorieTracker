@@ -11,6 +11,7 @@ Brett Leibowitz
 1. [Author](#author)
 1. [Usage](#usage)
 1. [Requirements](#requirements)
+1. [Testing](#testing)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
 1. [Contributing](#contributing)
@@ -23,6 +24,9 @@ Brett Leibowitz
 
 - Node 0.10.x
 - npm
+
+## Testing
+ Run 'mocha' in terminal
 
 ## Development
 
