@@ -1,10 +1,12 @@
 var mongoose = require('mongoose');
+// mongo schema models
 var User = require('./models/user-model');
 var Entry = require('./models/entry-model');
-
+// express module
 var express = require("express");
+// better terminal logs
 var morgan = require("morgan");
-var bodyParser = require("body-parser");
+// allows use of tokens
 var jwt = require("jsonwebtoken");
 var app = express();
 
@@ -32,6 +34,7 @@ mongoose.connect(connStr, function(err) {
   console.log('Successfully connected to MongoDB');
 });
 
+// Authenticates the user given a username and password
 app.post('/authenticate', function(req, res) {
   var data = "";
   req.on('data', function(chunk) {
@@ -39,6 +42,7 @@ app.post('/authenticate', function(req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
+    // find a user with that token
     User.findOne({token: data.token}, function(err, user) {
       if (err) {
         res.json({
@@ -47,7 +51,7 @@ app.post('/authenticate', function(req, res) {
         });
       } else {
         if (user) {
-          res.status(201);
+          res.status(200);
           res.json({
             data: user,
           });
@@ -62,32 +66,47 @@ app.post('/authenticate', function(req, res) {
   });
 });
 
+// saves a calorie entry to mongo
 app.post('/saveEntry', function (req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(201);
+  res.status(401);
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
   });
   req.on('end', function() {
     data = JSON.parse(data);
+    // find a user with that token
     User.findOne({token: data.token}, function(err, user) {
-      var newEntry = new Entry({
-        user: user.username,
-        date: data.date,
-        time: data.time,
-        text: data.comments,
-        calories: data.calories
-      });
-      newEntry.save(function(err, entrySave) {
-        if (err) throw err;
-        res.end(JSON.stringify({entry: entrySave}));
+      if (user) {
+        console.log(user)
+        res.status(201);
+        // make a new entry
+        var newEntry = new Entry({
+          user: user.username,
+          date: data.date,
+          time: data.time,
+          text: data.comments,
+          calories: data.calories
+        });
+        // save the entry
+        newEntry.save(function(err, entrySave) {
+          if (err) throw err;
+          res.end(JSON.stringify({entry: entrySave}));
 
-      });
+        });
+      } else {
+        console.log('nope')
+        res.status(401);
+        res.json({
+          data: "Incorrect token"
+        });
+      }
     });
   });
 });
 
+// updates a calorie entry in mongo
 app.post('/updateEntry', function (req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -97,18 +116,20 @@ app.post('/updateEntry', function (req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    console.log(data.entry._id);
+    // find the entry
     Entry.findOne({_id: data.entry._id}, function(err, entry) {
       entry.date = data.date;
       entry.time = data.time;
       entry.text = data.comments;
       entry.calories = data.calories;
+      // save the updated data
       entry.save();
     });
     res.end();
   });
 });
 
+// deletes an entry entry in mongo
 app.post('/deleteEntry', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -119,11 +140,13 @@ app.post('/deleteEntry', function(req, res) {
   req.on('end', function() {
     data = JSON.parse(data);
     console.log(data._id);
+    // delete the entry
     Entry.find({_id: data._id}).remove().exec();
   });
   res.end();
 });
 
+// creates a new user in mongo
 app.post('/createUser', function (req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -133,10 +156,10 @@ app.post('/createUser', function (req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
-    console.log(data['id']);
-    console.log('data ', data);
+    // find a user with those credentials
     User.findOne({ username: data.id}, function(err, userFind) {
       if (err) throw err;
+      // create a user if one does not exist with that username
       if (userFind === null) {
         var newUser = new User({
           username: data.id,
@@ -144,6 +167,7 @@ app.post('/createUser', function (req, res) {
           expectedCalories: data.calories,
           token: jwt.sign(data.id, "MY_SECRET")
         });
+        // save the user
         newUser.save(function(err, userSave) {
           if (err) throw err;
           res.end(JSON.stringify({newUser: true, token: userSave.token}));
@@ -155,9 +179,10 @@ app.post('/createUser', function (req, res) {
   });
 });
 
+// logs a user in given a username and password
 app.post('/login', function (req, res) {
   // console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.status(302);
+  res.status(401);
   var data = "";
   req.on('data', function(chunk) {
     data += chunk;
@@ -187,6 +212,7 @@ app.post('/login', function (req, res) {
   });
 });
 
+// grabs the user's expected number of daily calories
 app.post('/expectedCalories', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -196,13 +222,15 @@ app.post('/expectedCalories', function(req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
+    // find the user based off a token
     User.findOne({token: data.token}, function(err, user) {
-      console.log(user);
+      // send back the expected calories for that user
       res.end(JSON.stringify({expectedCalories: user.expectedCalories}));
     });
   });
 });
 
+// grabs all of a user's entries
 app.post('/calories', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
@@ -212,7 +240,9 @@ app.post('/calories', function(req, res) {
   });
   req.on('end', function() {
     data = JSON.parse(data);
+    // finds a user based off of a token
     User.findOne({token: data.token}, function(err, user) {
+      // finds all entries from that user
       Entry.find({user: user.username}, function(err, entries) {
         res.end(JSON.stringify({entries: entries, user: user.username}));
       });
