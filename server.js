@@ -136,15 +136,9 @@ app.put('/updateEntry', function (req, res) {
 app.delete('/deleteEntry', function(req, res) {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.status(201);
-  // var data = "";
-  // req.on('data', function(chunk) {
-  //   data += chunk;
-  // });
   req.on('end', function() {
     console.log(req.query.entry);
-    // var data = JSON.parse(req.query);
     var data = JSON.parse(req.query.entry);
-
     // delete the entry
     Entry.find({_id: data._id}).remove().exec();
   });
