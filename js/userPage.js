@@ -44,7 +44,13 @@ angular.module('calorieTrackerApp.userPage', [])
 
   // deletes an entry from mongo
   $scope.deleteEntry = function(entry) {
-    $http.post("/deleteEntry", entry)
+    // $http.post("/deleteEntry", entry)
+    $http.delete("/deleteEntry",
+      {
+        params: {
+          entry: entry
+        }
+      })
       .success(function(data, status, headers, config) {
         $http.post('/calories', {token: sessionStorage.token})
           .success(function(data, status, headers, config) {
@@ -57,7 +63,7 @@ angular.module('calorieTrackerApp.userPage', [])
 
   // updates an entry in mongo
   $scope.updateEntry = function(entry, calories, comments, date, time) {
-    $http.post("/updateEntry", {entry: entry, calories: calories, comments: comments, date: date, time: time })
+    $http.put("/updateEntry", {entry: entry, calories: calories, comments: comments, date: date, time: time })
       .success(function(data, status, headers, config) {
         // updates list of entries on page
         $http.post('/calories', {token: sessionStorage.token})
